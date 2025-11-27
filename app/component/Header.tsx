@@ -10,7 +10,7 @@ import Lenis from 'lenis'
 // --- Typescript Interfaces & Data (omitted for brevity) ---
 interface HeaderProps { theme?: 'light' | 'dark'; toggleTheme?: () => void; navItems?: { label: string; href: string }[]; }
 const defaultNavItems = [
-    { label: 'HOME', href: '#home' },
+    { label: 'HOME', href: '#hero' },
     // { label: 'ABOUT', href: '#about' }, 
     { label: 'SKILLS', href: '#skills' },
     { label: 'PROJECTS', href: '#projects' },
@@ -103,7 +103,6 @@ const Header: React.FC<HeaderProps> = ({
                                 }
                             }
                             }
-                            href={item.href}
                             className={`md:text-7xl sm:text-6xl font-extrabold text-[#656F83] border-b-6 border-transparent hover:border-b-gray-900 dark:text-white hover:text-gray-900 transition-colors duration-300 
                 transform translate-x-10
                 ${isMenuOpen ? 'animate-slide-in' : ''}`}
