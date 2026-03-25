@@ -44,11 +44,6 @@ const Header: React.FC<HeaderProps> = ({
 
         return () => lenis.destroy();
     }, []);
-    // useEffect(() => {
-    //     document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
-    //     return () => { document.body.style.overflow = 'unset'; };
-    // }, [isMenuOpen]);
-
 
     return (
         <header className={`fixed w-full z-50 transition-colors duration-300 opacity-0 animate-header-in backdrop-blur-2xl`}>
@@ -58,15 +53,11 @@ const Header: React.FC<HeaderProps> = ({
                         {/* --- Left: Logo --- */}
                         <div className="flex-shrink-0">
                             <a href="#hero" className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300 hover:text-indigo-500">
-                                NAHID.DEV
+                                <img src={'/logo.png'} alt='logo' className='w-14 h-auto' />
                             </a>
                         </div>
-
                         {/* --- Right: Controls (Theme Toggle and Menu Button ONLY) --- */}
                         <div className="flex items-center space-x-4">
-
-                            {/* REMOVED: The entire desktop navigation <nav className="hidden md:flex..."> block is gone. */}
-
                             {/* Theme Toggle */}
                             <button
                                 onClick={toggleTheme}

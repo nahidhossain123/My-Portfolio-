@@ -79,7 +79,7 @@ const timelineData: TimelineEntry[] = [
 
 const CareerTimeline: React.FC = () => {
   return (
-    <section id="career-timeline" className="py-20 bg-white dark:bg-gray-900">
+    <section id="career-timeline" className="py-20 container mx-auto bg-white dark:bg-gray-900">
       {/* Consistent Container */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-16 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">

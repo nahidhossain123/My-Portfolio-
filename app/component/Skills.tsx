@@ -26,32 +26,30 @@ const SkillsIconOnly: React.FC = () => {
     return (
         <section
             id="skills"
-            // Changed py-16 to min-h-screen and added flex centering
-            className="min-h-screen flex items-center bg-gray-50 dark:bg-gray-900"
+            className="min-h-screen bg-gray-50 dark:bg-gray-900"
         >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"> {/* Added py-20 for vertical padding inside */}
+            <div className='min-h-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full'>
+                <div className="flex items-center min-h-screen"> {/* Added py-20 for vertical padding inside */}
+                    <div className='w-full'>
+                        <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
+                            My Skills
+                        </h2>
 
-                <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
-                    My Skills
-                </h2>
-
-                {/* --- Icon Grid --- */}
-                <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-4 p-4">
-
-                    {skillsList.map((skill) => (
-                        <div
-                            key={skill.name}
-                            className="flex flex-col items-center p-4 
-                         bg-white dark:bg-gray-800 rounded-lg shadow-md
-                         transition-all duration-300 hover:shadow-xl hover:scale-105"
-                        >
-                            <skill.Icon className={`w-10 h-10 sm:w-12 sm:h-12 mb-2 ${skill.color}`} />
-
-                            <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 text-center mt-1">
-                                {skill.name}
-                            </p>
+                        {/* --- Icon Grid --- */}
+                        <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-4 p-4">
+                            {skillsList.map((skill) => (
+                                <div
+                                    key={skill.name}
+                                    className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105"
+                                >
+                                    <skill.Icon className={`mb-2 ${skill.color}`} />
+                                    <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 text-center mt-1">
+                                        {skill.name}
+                                    </p>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
                 </div>
             </div>
         </section>
