@@ -22,7 +22,7 @@ const skillsList: Skill[] = [
     { name: "WordPress", Icon: Wrench, color: "text-blue-600" },
 ];
 
-const SkillsIconOnly: React.FC = () => {
+const Skills: React.FC = () => {
     return (
         <section
             id="skills"
@@ -56,4 +56,4 @@ const SkillsIconOnly: React.FC = () => {
     );
 };
 
-export default SkillsIconOnly;
+export default Skills;

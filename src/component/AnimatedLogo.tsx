@@ -1,7 +1,7 @@
 'use client'
 import { JSX, useEffect, useRef } from "react";
 
-export default function LogoDraw(): JSX.Element {
+export default function AnimatedLogo(): JSX.Element {
     const pathsRef = useRef<SVGPathElement[]>([]);
 
     useEffect(() => {
