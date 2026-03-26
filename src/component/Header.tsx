@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({
     }, []);
 
     return (
-        <header className={`fixed w-full z-50 transition-colors duration-300 opacity-0 animate-header-in backdrop-blur-2xl`}>
+        <header className={`fixed w-full z-50 transition-colors duration-300 opacity-0 animate-header-in`}>
             <div className="w-full">
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">

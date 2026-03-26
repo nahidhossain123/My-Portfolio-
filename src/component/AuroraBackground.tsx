@@ -21,11 +21,6 @@ export default function AuroraBackground() {
                         `}
                 ></div>
             </div>
-
-            <div className="relative z-10 text-center">
-                <h1 className="text-4xl md:text-7xl font-bold">The Aurora Effect</h1>
-                <p className="mt-4 text-zinc-400">Next.js + Tailwind CSS</p>
-            </div>
         </div>
     );
 }

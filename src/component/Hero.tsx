@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
     // flex and items-center/justify-center center the content
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 text-center relative"
+      className="min-h-screen flex items-center justify-center text-center relative"
     >
       <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
 
