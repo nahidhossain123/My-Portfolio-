@@ -43,7 +43,7 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
       <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
 
         {/* --- Main Content --- */}
-        <p className="text-xl sm:text-2xl text-indigo-600 dark:text-indigo-400 font-medium mb-3">
+        <p className="text-xl sm:text-2xl text-indigo-600 dark:text-white font-medium mb-3">
           Hi, I'm
         </p>
 

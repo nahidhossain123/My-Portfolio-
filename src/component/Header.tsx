@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useLenis } from './SmoothScrollProvider';
 import Lenis from 'lenis'
+import IconButton from './icon/IconButton';
 
 
 // --- Typescript Interfaces & Data (omitted for brevity) ---
@@ -51,9 +52,10 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center py-4">
                         {/* --- Left: Logo --- */}
-                        <div className="flex-shrink-0">
+                        <div className="shrink-0">
                             <a href="#hero" className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300 hover:text-indigo-500">
-                                <img src={'/logo.png'} alt='logo' className='w-14 h-auto' />
+                                {/* <img src={'/logo.png'} alt='logo' className='w-14 h-auto' /> */}
+                                <IconButton name='logo' iconStyle='w-20! h-20!' />
                             </a>
                         </div>
                         {/* --- Right: Controls (Theme Toggle and Menu Button ONLY) --- */}
