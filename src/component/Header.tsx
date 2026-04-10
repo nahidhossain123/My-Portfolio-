@@ -83,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({
             </div>
 
             {/* --- Mobile Menu Overlay (Remains the same, now serves all screen sizes) --- */}
-            {isMenuOpen && (<div className={`flex w-full`}
+            {isMenuOpen && (<div className={`flex w-full backdrop-blur-2xl`}
             >
                 <nav className="flex flex-wrap gap-5 space-y-8 p-10">
                     {navItems.map((item, index) => (

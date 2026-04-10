@@ -7,6 +7,11 @@ import Contact from "../component/Contact";
 import Footer from "../component/Footer";
 import Skills from "../component/Skills";
 import AuroraBackground from "../component/AuroraBackground";
+import DraggableCard from "../component/DraggableCard";
+import { Suspense } from "react";
+import RubikCube from "../component/RubikCube";
+import Scene from "../component/Scene";
+import { Canvas } from "@react-three/fiber";
 
 export default function Home() {
   return (
@@ -19,10 +24,17 @@ export default function Home() {
       <Skills />
       <Projects />
       <Experience />
-      {/* <About /> */}
-      {/* <CareerTimeline /> */}
+      {/* <About />
+      <CareerTimeline /> */}
       <Contact />
       <Footer />
+      {/* <Suspense>
+        <div className="fixed inset-0 pointer-events-none">
+          <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
+            <Scene />
+          </Canvas>
+        </div>
+      </Suspense> */}
     </div>
   );
 }
