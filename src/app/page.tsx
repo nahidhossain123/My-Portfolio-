@@ -7,11 +7,6 @@ import Contact from "../component/Contact";
 import Footer from "../component/Footer";
 import Skills from "../component/Skills";
 import AuroraBackground from "../component/AuroraBackground";
-import DraggableCard from "../component/DraggableCard";
-import { Suspense } from "react";
-import RubikCube from "../component/RubikCube";
-import Scene from "../component/Scene";
-import { Canvas } from "@react-three/fiber";
 
 export default function Home() {
   return (
