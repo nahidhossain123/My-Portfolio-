@@ -132,11 +132,11 @@ const Experience: React.FC = () => {
                             Aspyrer.com, Canada
                         </h3>
 
-                        <p className="text-sm uppercase tracking-wide text-gray-500">
+                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
                             Front-End Developer (Remote) • Jan 2023 — Present
                         </p>
 
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-300">
                             Worked on API integration, UI design, feature development, bug fixing, and performance optimization
                             across both React.js web applications and React Native mobile apps.
                         </p>
@@ -146,11 +146,11 @@ const Experience: React.FC = () => {
                             Dynamic Software Ltd.
                         </h3>
 
-                        <p className="text-sm uppercase tracking-wide text-gray-500">
+                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
                             Front-End Software Engineer • Apr 2022 — Jan 2023
                         </p>
 
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-300">
                             Converted Figma designs into responsive user interfaces, developed and customized WordPress themes,
                             and collaborated on Laravel + React-based applications to build scalable frontend features.
                         </p>
@@ -160,11 +160,11 @@ const Experience: React.FC = () => {
                             Trenza Softwares
                         </h3>
 
-                        <p className="text-sm uppercase tracking-wide text-gray-500">
+                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400">
                             Trainee Software Engineer • Nov 2021 — Apr 2022
                         </p>
 
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed">
+                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-400">
                             Translated Figma designs into responsive user interfaces and assisted in developing and customizing
                             WordPress themes, gaining hands-on experience in frontend development workflows.
                         </p>
