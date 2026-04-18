@@ -1,8 +1,11 @@
+'use client';
 // Skills.tsx
-import React from 'react';
+import React, { Suspense } from 'react';
 import {
     Code, Type, Atom, Component, GitBranch, Palette, Zap, Server, SquareDashedKanban, FileText, Wrench
 } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import MySkillScene from './MySkillScene';
 
 interface Skill { name: string; Icon: React.ElementType; color: string; }
 
@@ -28,14 +31,13 @@ const Skills: React.FC = () => {
             id="skills"
             className="min-h-screen bg-gray-50 dark:bg-gray-900"
         >
-            <div className='min-h-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full'>
-                <div className="flex items-center min-h-screen"> {/* Added py-20 for vertical padding inside */}
+            {/* <div className='min-h-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full'>
+                <div className="flex items-center min-h-screen"> 
                     <div className='w-full'>
                         <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
                             My Skills
                         </h2>
 
-                        {/* --- Icon Grid --- */}
                         <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-4 p-4">
                             {skillsList.map((skill) => (
                                 <div
@@ -51,7 +53,12 @@ const Skills: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <Suspense >
+                <div className='h-screen w-screen'>
+                    <MySkillScene />
+                </div>
+            </Suspense>
         </section>
     );
 };

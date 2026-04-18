@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useMemo } from 'react';
 import { Github, ExternalLink, Code, Database, Server } from 'lucide-react';
+import Image from 'next/image';
 
 // --- Interface Definitions ---
 interface Project {
@@ -9,6 +10,7 @@ interface Project {
     description: string;
     tags: string[];
     category: "Full Stack" | "Frontend" | "Backend" | "Utility";
+    image: string; // Path to project image/icon
     github: string;
     live: string | null;
     icon: React.ReactElement; // Lucide icon for visual type
@@ -24,6 +26,7 @@ const projectsData: Project[] = [
         description: "A full-stack e-commerce site with user authentication, product listings, a shopping cart, and mock payment integration.",
         tags: ["React", "Node.js", "Express.js", "MongoDB"],
         category: "Full Stack",
+        image: "/project/bamboo1.png",
         github: "https://github.com/nahidhossain123/Bamboo-E-commerce",
         live: "https://bomboo-e-commerce.netlify.app/",
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -34,6 +37,7 @@ const projectsData: Project[] = [
         description: "A full-stack e-commerce site with user authentication, product listings, a shopping cart, and mock payment integration.",
         tags: ["React", "Node.js", "Express.js", "MongoDB", "Redux"],
         category: "Full Stack",
+        image: "/project/booking1.png",
         github: "https://github.com/nahidhossain123/Booking-App-React",
         live: "https://boooking.netlify.app/",
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -44,6 +48,7 @@ const projectsData: Project[] = [
         description: "A modern e-commerce web app built with React that allows users to browse products, view details, and add items to the cart with a clean, responsive UI",
         tags: ["React Js",],
         category: "Frontend",
+        image: "/project/bonik1.png",
         github: "https://github.com/nahidhossain123/E-Commerce-React",
         live: 'https://bonik-ecom.netlify.app/',
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -54,6 +59,7 @@ const projectsData: Project[] = [
         description: "Create beautiful photo frames with ease! Enjoy both dark and light modes while customizing and sharing your photos.",
         tags: ["React", "JavaScript", "API Integration", "CSS"],
         category: "Frontend",
+        image: "/project/frame1.png",
         github: "https://github.com/nahidhossain123/photo-frame-generator",
         live: "https://photo-frame-generator.netlify.app/",
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -64,6 +70,7 @@ const projectsData: Project[] = [
         description: "“Efficiently manage hospital operations, doctor records, and appointments with an intuitive Hospital Management System.",
         tags: ["PHP", "MYSQL", "JS"],
         category: "Full Stack",
+        image: "/project/frame1.png",
         github: "https://github.com/nahidhossain123/Doctor-Appointment-System",
         live: 'null',
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -74,6 +81,7 @@ const projectsData: Project[] = [
         description: "Discover and create delicious recipes with a sleek, user-friendly Cooking App UI.",
         tags: ["React Js"],
         category: "Frontend",
+        image: "/project/food1-dark.png",
         github: "https://github.com/nahidhossain123/Food-App-React",
         live: 'https://foodbuy.netlify.app/',
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -84,6 +92,7 @@ const projectsData: Project[] = [
         description: "Discover and create delicious recipes with a sleek, user-friendly Cooking App UI.",
         tags: ["React Js"],
         category: "Frontend",
+        image: "/project/gpt1.png",
         github: "https://github.com/nahidhossain123/Artificial-Intelligence-GPT3--React",
         live: 'https://gpt-ai.netlify.app/',
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -94,6 +103,7 @@ const projectsData: Project[] = [
         description: "Discover and create delicious recipes with a sleek, user-friendly Cooking App UI.",
         tags: ["React Js"],
         category: "Frontend",
+        image: "/project/nft1.png",
         github: "https://github.com/nahidhossain123/NFT-Marketpalce",
         live: 'https://nft-markets.netlify.app/',
         icon: <Code className="w-5 h-5 text-indigo-500" />
@@ -107,39 +117,45 @@ const allCategories: ProjectCategory[] = ["All", ...new Set(projectsData.map(p =
 interface ProjectCardProps { project: Project; }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => (
-    <div className="container mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg transition duration-300 hover:shadow-2xl hover:scale-[1.02] border-t-4 border-indigo-500">
-        <div className="flex items-center space-x-3 mb-4">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {project.title}
-            </h3>
+    <div className="container mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg transition duration-300 hover:shadow-2xl hover:scale-[1.02] border-t-4 border-indigo-500">
+        <div className='h-[400px]'>
+            <Image src={project.image} alt={`${project.title} icon`} width={1200}
+                height={600} className="w-full h-full mb-4 object-cover rounded-lg" />
         </div>
+        <div className='p-5'>
+            <div className="flex items-center space-x-3 mb-4">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                    {project.title}
+                </h3>
+            </div>
 
-        <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
 
-        <div className="flex flex-wrap gap-2 mb-4">
-            {project.tags.map((tag, i) => (
-                <span
-                    key={i}
-                    className="px-3 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
-                >
-                    {tag}
-                </span>
-            ))}
-        </div>
+            <div className="flex flex-wrap gap-2 mb-4">
+                {project.tags.map((tag, i) => (
+                    <span
+                        key={i}
+                        className="px-3 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300"
+                    >
+                        {tag}
+                    </span>
+                ))}
+            </div>
 
-        <div className="flex space-x-4 pt-2 border-t border-gray-100 dark:border-gray-700">
-            {project.github && (
-                <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition duration-200" title="GitHub Repository">
-                    <Github className="w-5 h-5 mr-1" />
-                    Code
-                </a>
-            )}
-            {project.live && (
-                <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex items-center text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-200 transition duration-200" title="Live Demo">
-                    <ExternalLink className="w-5 h-5 mr-1" />
-                    Live Demo
-                </a>
-            )}
+            <div className="flex space-x-4 pt-2 border-t border-gray-100 dark:border-gray-700">
+                {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-500 hover:text-gray-900 dark:hover:text-white transition duration-200" title="GitHub Repository">
+                        <Github className="w-5 h-5 mr-1" />
+                        Code
+                    </a>
+                )}
+                {project.live && (
+                    <a href={project.live} target="_blank" rel="noopener noreferrer" className="flex items-center text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-200 transition duration-200" title="Live Demo">
+                        <ExternalLink className="w-5 h-5 mr-1" />
+                        Live Demo
+                    </a>
+                )}
+            </div>
         </div>
     </div>
 );
@@ -159,7 +175,7 @@ const Projects: React.FC = () => {
 
     return (
         <section id="projects" className="py-20 bg-white dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="">
                 <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-10 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
                     My Projects
                 </h2>
