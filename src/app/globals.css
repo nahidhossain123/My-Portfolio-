@@ -5,6 +5,18 @@
     
 }
 
+@layer base {
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @theme inline {
  /* ... your base brand tokens ... */
   --color-brand-light: #3b82f6; /* Use for Light Mode */

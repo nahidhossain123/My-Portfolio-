@@ -1,6 +1,8 @@
 'use client'
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import TelePhoneScene from './ImagePlane';
 
 // Define the shape of the form data (omitted for brevity)
 interface ContactForm { name: string; email: string; message: string; }
@@ -57,13 +59,15 @@ const Contact: React.FC = () => {
     );
 
     return (
-        <section id="contact" className="py-20 h-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="contact" className="relative py-20 h-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
+            {/* <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-6xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
                     CONTACT ME
                 </h2>
 
-                {/* Content Wrapper */}
+
+               
+
                 <div className="md:flex md:space-x-10">
                     <div className="mt-10 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 md:border-l-0 border-gray-200 dark:border-gray-700 md:pl-8">
                         <h3>FOR FURTHER ENQUIRIES</h3>
@@ -79,7 +83,12 @@ const Contact: React.FC = () => {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> */}
+            <Suspense>
+                <div className='h-[110vh] w-screen'>
+                    <TelePhoneScene />
+                </div>
+            </Suspense>
         </section>
     );
 };

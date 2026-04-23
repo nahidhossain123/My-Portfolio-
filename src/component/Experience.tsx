@@ -1,6 +1,8 @@
 'use client'
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense } from 'react';
 import { Github, ExternalLink, Code, Database, Server } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import ExperienceCard from './ExperienceCard';
 
 // --- Interface Definitions ---
 interface Project {
@@ -119,13 +121,12 @@ const Experience: React.FC = () => {
     }, [activeFilter]);
 
     return (
-        <section id="projects" className="py-20 h-screen flex items-center bg-white dark:bg-gray-900">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="projects" className="py-20 h-screen flex items-center bg-white dark:bg-black">
+            {/* <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-10 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
                     My Experience
                 </h2>
 
-                {/* --- Project Grid --- */}
                 <div className="space-y-5 flex flex-col justify-center items-center">
                     <div className='flex'>
                         <div className='space-y-5 border border-white w-full md:max-w-[40%] p-5 rounded-xl -rotate-5 flex-start'>
@@ -194,6 +195,11 @@ const Experience: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </div> */}
+            <div className='h-screen w-screen'>
+                <Suspense>
+                    <ExperienceCard />
+                </Suspense>
             </div>
         </section>
     );

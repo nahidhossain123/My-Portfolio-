@@ -29,7 +29,7 @@ const Skills: React.FC = () => {
     return (
         <section
             id="skills"
-            className="min-h-screen bg-gray-50 dark:bg-gray-900"
+            className="min-h-screen bg-gray-50 dark:bg-black"
         >
             {/* <div className='min-h-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full'>
                 <div className="flex items-center min-h-screen"> 

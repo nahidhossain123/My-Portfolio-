@@ -1,7 +1,10 @@
 'use client'
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Github, ExternalLink, Code, Database, Server } from 'lucide-react';
 import Image from 'next/image';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 // --- Interface Definitions ---
 interface Project {
@@ -173,8 +176,57 @@ const Projects: React.FC = () => {
         return projectsData.filter(project => project.category === activeFilter);
     }, [activeFilter]);
 
+    const gridRef = useRef(null);
+
+    useEffect(() => {
+        if (!gridRef.current) return
+
+        const items = gridRef.current.querySelectorAll(".card");
+
+        items.forEach((item, index) => {
+            let fromX = 0;
+            let fromY = 0;
+
+            if (index % 3 === 0) {
+                fromX = -200;
+                fromY = 200;
+            } // left
+            if (index % 3 === 1) {
+                fromY = 150;
+            }  // right
+            if (index % 3 === 2) {
+                fromX = 200;
+                fromY = 200;
+            }  // bottom
+
+            gsap.fromTo(
+                item,
+                {
+                    x: fromX,
+                    y: fromY,
+                    opacity: 0.3,
+                    scale: 0.9,
+                },
+                {
+                    x: 0,
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 90%",
+                        end: "top 40%",
+                        scrub: true,
+                    },
+                }
+            );
+        });
+    }, []);
+
+
     return (
-        <section id="projects" className="py-20 bg-white dark:bg-gray-900">
+        <section id="projects" className="py-20 bg-white dark:bg-black overflow-hidden">
             <div className="">
                 <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-10 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
                     My Projects
@@ -200,10 +252,12 @@ const Projects: React.FC = () => {
                 </div>
 
                 {/* --- Project Grid --- */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredProjects.length > 0 ? (
                         filteredProjects.map(project => (
-                            <ProjectCard key={project.id} project={project} />
+                            <div className='card'>
+                                <ProjectCard key={project.id} project={project} />
+                            </div>
                         ))
                     ) : (
                         <p className="text-center text-gray-600 dark:text-gray-400 col-span-full">
