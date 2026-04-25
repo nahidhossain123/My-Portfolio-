@@ -6,6 +6,9 @@ import {
 } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
 import MySkillScene from './MySkillScene';
+import { Environment, View } from '@react-three/drei';
+import ScrollingPaper from './ScrollingPaper';
+import { Model } from './Keyboard';
 
 interface Skill { name: string; Icon: React.ElementType; color: string; }
 
@@ -54,11 +57,12 @@ const Skills: React.FC = () => {
                     </div>
                 </div>
             </div> */}
-            <Suspense >
+            {/* <Suspense >
                 <div className='h-screen w-screen'>
                     <MySkillScene />
                 </div>
-            </Suspense>
+            </Suspense> */}
+
         </section>
     );
 };

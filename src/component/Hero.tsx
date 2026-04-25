@@ -38,11 +38,10 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
     // flex and items-center/justify-center center the content
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center text-center relative"
+      className="hero min-h-screen flex items-center justify-center text-center relative"
     >
-      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
+      {/* <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-20">
 
-        {/* --- Main Content --- */}
         <p className="text-xl sm:text-2xl text-indigo-600 dark:text-white font-medium mb-3">
           Hi, I'm
         </p>
@@ -59,7 +58,6 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
           {tagline}
         </p>
 
-        {/* --- Call to Action Button --- */}
         <a
           onClick={() => {
             if (lenisRef.current) {
@@ -75,10 +73,10 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
           <ArrowRight className="w-5 h-5 ml-1" />
         </a>
 
-      </div>
+      </div> */}
 
       {/* --- Scroll Indicator (Optional) --- */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+      {/* <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
         <a
           href={ctaTargetId}
           aria-label="Scroll down to the next section"
@@ -86,7 +84,7 @@ const Hero: React.FC<HeroProps> = ({ name, title, tagline, ctaTargetId }) => {
         >
           <ChevronDown className="w-8 h-8 animate-bounce" />
         </a>
-      </div>
+      </div> */}
     </section>
   );
 };

@@ -7,6 +7,11 @@ import Contact from "../component/Contact";
 import Footer from "../component/Footer";
 import Skills from "../component/Skills";
 import AuroraBackground from "../component/AuroraBackground";
+import GlobalCanvas from "../component/ViewCanvas";
+import { Model } from "../component/Keyboard";
+import { Suspense } from "react";
+import ExperienceCard from "../component/ExperienceCard";
+import AllScenes from "../component/AllScenes";
 
 export default function Home() {
   return (
@@ -18,11 +23,11 @@ export default function Home() {
       <Hero name="Nahid Hossain" title="Front-End Developer" tagline="Engineering clean, efficient code for the modern web" ctaTargetId="#projects" />
       <Skills />
       <Projects />
-      <Experience />
+      {/*<Experience /> */}
       {/* <About />
       <CareerTimeline /> */}
-      <Contact />
-      <Footer />
+      {/* <Contact />
+      <Footer /> */}
       {/* <Suspense>
         <div className="fixed inset-0 pointer-events-none">
           <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
@@ -30,6 +35,11 @@ export default function Home() {
           </Canvas>
         </div>
       </Suspense> */}
+      <Suspense>
+        <GlobalCanvas>
+          <AllScenes />
+        </GlobalCanvas>
+      </Suspense>
     </div>
   );
 }

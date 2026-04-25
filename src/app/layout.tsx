@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "../component/SmoothScrollProvider";
 import SplashScreen from "../component/layout/SplashScreen";
 import { ThemeProvider } from "../component/ThemeProvider";
+import ViewCanvas from "../component/ViewCanvas";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

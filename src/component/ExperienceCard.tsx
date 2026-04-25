@@ -19,10 +19,10 @@ const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
     const [hovered, hover] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
 
-    useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]) // prettier-ignore
-    useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]) // prettier-ignore
-    useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]) // prettier-ignore
-    useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.45, 0]]) // prettier-ignore
+    useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
+    useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
+    useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
+    useSphericalJoint(j3, card, [[0, 0, 0], [0, 0.8, 0]]) // prettier-ignore
 
     // useEffect(() => {
     //     if (hovered) {
@@ -66,14 +66,14 @@ const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
                 <RigidBody ref={j1} position={[0.5, 0, 0]} {...segmentProps} >
                     <BallCollider args={[0.1]} />
                 </RigidBody>
-                <RigidBody ref={j2} position={[1, 0, 0]} {...segmentProps} >
+                <RigidBody ref={j2} position={[0.6, 0, 0]} {...segmentProps} >
                     <BallCollider args={[0.1]} />
                 </RigidBody>
-                <RigidBody ref={j3} position={[1.5, 0, 0]} {...segmentProps} >
+                <RigidBody ref={j3} position={[0.7, 0, 0]} {...segmentProps} >
                     <BallCollider args={[0.1]} />
                 </RigidBody>
-                <RigidBody ref={card} position={[2.5, 0, 0]} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'} >
-                    <CuboidCollider args={[0.5, 0.75, 0.01]} />
+                <RigidBody ref={card} position={[0.8, 0, 0]} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'} >
+                    <CuboidCollider args={[0.4, 0.6, 0.01]} />
                     <group
                         onPointerOver={() => hover(true)}
                         onPointerOut={() => hover(false)}
@@ -82,7 +82,7 @@ const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
                     >
                         <mesh
                             castShadow>
-                            <boxGeometry args={[1, 1.5, 0.01]} />
+                            <boxGeometry args={[0.8, 1.2, 0.01]} />
                             <meshStandardMaterial color="white" />
                         </mesh>
                     </group>
@@ -97,7 +97,7 @@ const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
                 <meshLineMaterial
                     color="white"
                     resolution={[width, height]}
-                    lineWidth={0.5}
+                    lineWidth={0.3}
                     depthTest={false}
                 />
             </mesh>
@@ -108,10 +108,10 @@ const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
 const ExperienceCard = () => {
     const { debug } = useControls({ debug: false })
     return (
-        <Canvas style={{ touchAction: 'none' }} className='h-full w-full' camera={{ position: [0, 0, 13], fov: 25 }}>
+        <>
             <ambientLight intensity={Math.PI} />
             <Physics debug={debug} interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-                <Card position={[0, 4.6, 0]} />
+                <Card position={[2, 1.8, 0]} />
             </Physics>
             {/* <Environment background blur={0.75}>
                 <color attach="background" args={['black']} />
@@ -120,7 +120,7 @@ const ExperienceCard = () => {
                 <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
                 <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
             </Environment> */}
-        </Canvas>
+        </>
     )
 }
 

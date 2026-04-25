@@ -141,7 +141,7 @@ export function Model(props) {
             {...props}
             dispose={null}
             rotation={[Math.PI / 4, Math.PI / 4, 0]}
-            scale={[1, 1, 1]}
+            scale={[2, 2, 2]}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
             onPointerMissed={handlePointerUp} // 🔥 important (release outside)
