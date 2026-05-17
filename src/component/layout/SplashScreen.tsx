@@ -24,7 +24,7 @@ export default function SplashScreen({ children }: { children: React.ReactNode }
                     !isVisible ? "opacity-0 pointer-events-none" : "opacity-100"
                 )}
             >
-                <AnimatedLogo />
+
             </div>
             {/* Pre-render children in the background so they are ready when logo fades */}
             <div className={!isVisible ? "opacity-100" : "opacity-0"}>

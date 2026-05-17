@@ -6,6 +6,10 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { useLenis } from './SmoothScrollProvider';
 import Lenis from 'lenis'
 import IconButton from './icon/IconButton';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import Button from './ui/Button';
+import SiteLogo from './SiteLogo';
 
 
 // --- Typescript Interfaces & Data (omitted for brevity) ---
@@ -28,6 +32,8 @@ const Header: React.FC<HeaderProps> = ({
     const ThemeIcon = theme === 'dark' ? Sun : Moon;
     const { lenis } = useLenis();
     const lenisRef = useRef<Lenis | null>(null);
+    const navRef = useRef<HTMLElement>(null);
+
 
     useEffect(() => {
         const lenis = new Lenis({
@@ -46,69 +52,29 @@ const Header: React.FC<HeaderProps> = ({
         return () => lenis.destroy();
     }, []);
 
+    useGSAP(() => {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        // Animate navigation in
+        tl.from(navRef.current, {
+            opacity: 0,
+            y: -30,
+            duration: 0.8,
+        }, 0);
+    }, {})
+
     return (
-        <header className={`fixed w-full z-50 transition-colors duration-300 opacity-0 animate-header-in`}>
+        <header className={`fixed w-full z-50`}>
             <div className="w-full">
-                <div className="px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between items-center py-4">
-                        {/* --- Left: Logo --- */}
-                        <div className="shrink-0">
-                            <a href="#hero" className="text-2xl font-bold text-gray-900 dark:text-white transition-colors duration-300 hover:text-indigo-500">
-                                {/* <img src={'/logo.png'} alt='logo' className='w-14 h-auto' /> */}
-                                <IconButton name='logo' iconStyle='w-20! h-20!' />
-                            </a>
-                        </div>
-                        {/* --- Right: Controls (Theme Toggle and Menu Button ONLY) --- */}
-                        <div className="flex items-center space-x-4">
-                            {/* Theme Toggle */}
-                            <button
-                                onClick={toggleTheme}
-                                aria-label="Toggle Dark/Light Mode"
-                                className="p-2 rounded-full text-gray-700 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-500 transition-colors duration-300 relative z-10"
-                            >
-                                <ThemeIcon className="w-6 h-6" />
-                            </button>
-
-                            {/* Menu Button (Now the sole navigation trigger) */}
-                            <button
-                                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                aria-label="Open Navigation Menu"
-                                className="p-2 rounded-full text-gray-900 dark:text-white hover:text-indigo-500 transition-colors duration-300 relative z-10"
-                            >
-                                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                            </button>
-                        </div>
+                <nav ref={navRef} className="flex justify-between items-center px-8 py-6 md:px-16 md:py-8">
+                    <SiteLogo />
+                    <div className="hidden md:flex gap-8 text-sm text-gray-300">
+                        <a href="#about" className="hover:text-pink-400 duration-300">About</a>
+                        <a href="#experience" className="hover:text-pink-400 duration-300">Experience</a>
+                        <a href="#works" className="hover:text-pink-400 duration-300">Works</a>
                     </div>
-                </div>
-            </div>
-
-            {/* --- Mobile Menu Overlay (Remains the same, now serves all screen sizes) --- */}
-            {isMenuOpen && (<div className={`flex w-full backdrop-blur-2xl`}
-            >
-                <nav className="flex flex-wrap gap-5 space-y-8 p-10">
-                    {navItems.map((item, index) => (
-                        <a
-                            key={item.label}
-                            onClick={() => {
-                                setIsMenuOpen(false)
-                                if (lenisRef.current) {
-                                    lenisRef.current.scrollTo(item.href);
-                                }
-                            }
-                            }
-                            className={`md:text-7xl sm:text-6xl font-extrabold text-[#656F83] border-b-6 border-transparent hover:border-b-gray-900 dark:text-white hover:text-gray-900 transition-colors duration-300 
-                transform translate-x-10
-                ${isMenuOpen ? 'animate-slide-in' : ''}`}
-                            style={{ animationDelay: `${index * 0.1}s` }}
-                        >
-                            {item.label}
-                        </a>
-                    ))}
+                    <Button text='Get In Touch' />
                 </nav>
-                <div className='w-[50%]'>
-
-                </div>
-            </div>)}
+            </div>
         </header>
     );
 };

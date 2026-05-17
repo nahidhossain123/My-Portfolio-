@@ -1,69 +1,89 @@
 'use client';
 // Skills.tsx
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import {
     Code, Type, Atom, Component, GitBranch, Palette, Zap, Server, SquareDashedKanban, FileText, Wrench
 } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import MySkillScene from './MySkillScene';
 import { Environment, View } from '@react-three/drei';
 import ScrollingPaper from './ScrollingPaper';
 import { Model } from './Keyboard';
-
-interface Skill { name: string; Icon: React.ElementType; color: string; }
-
-const skillsList: Skill[] = [
-    { name: "HTML", Icon: FileText, color: "text-orange-500" },
-    { name: "CSS", Icon: Palette, color: "text-blue-400" },
-    { name: "JavaScript", Icon: Code, color: "text-yellow-500" },
-    { name: "TypeScript", Icon: Type, color: "text-blue-500" },
-    { name: "React", Icon: Atom, color: "text-cyan-500" },
-    { name: "Next.js", Icon: SquareDashedKanban, color: "text-gray-900 dark:text-white" },
-    { name: "React Native", Icon: Component, color: "text-sky-500" },
-    { name: "Redux", Icon: GitBranch, color: "text-purple-600" },
-    { name: "Express", Icon: Server, color: "text-green-600" },
-    { name: "Socket.IO", Icon: Zap, color: "text-gray-500 dark:text-gray-300" },
-    { name: "Tailwind CSS", Icon: Palette, color: "text-teal-400" },
-    { name: "Bootstrap", Icon: Palette, color: "text-purple-700" },
-    { name: "WordPress", Icon: Wrench, color: "text-blue-600" },
-];
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/all';
+import gsap from 'gsap';
+import { useThree } from '@react-three/fiber';
+import { Vector3 } from 'three';
+import GlobalCanvas from './ViewCanvas';
 
 const Skills: React.FC = () => {
+    const sectionRef = useRef(null);
+    const text1Ref = useRef(null);
+    const text2Ref = useRef(null);
+    const modelRef = useRef({ value: -4 })
+    const [modelReady, setModelReady] = React.useState(false);
+
+    useGSAP(() => {
+        const words = gsap.utils.toArray(".word");
+        const words2 = gsap.utils.toArray(".word2");
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top top",
+                end: "+=5000",
+                scrub: true,
+                pin: true,
+
+            },
+        });
+
+        // 🔹 Word highlight (main effect)
+        tl.to(words, {
+            opacity: 1,
+            stagger: 0.2,
+            ease: "power2.out",
+        });
+
+        // 🔹 Move first text up
+        tl.to(text1Ref.current, {
+            y: "-120%",
+            opacity: 0,
+            duration: 1,
+        });
+        tl.fromTo(modelRef.current,
+            { value: -4 },
+            { value: 0 },
+            2
+        );
+
+
+    }, { scope: sectionRef });
+
     return (
         <section
+            ref={sectionRef}
             id="skills"
-            className="min-h-screen bg-gray-50 dark:bg-black"
+            className="h-screen bg-gray-50 dark:bg-black py-40"
         >
-            {/* <div className='min-h-screen max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full'>
-                <div className="flex items-center min-h-screen"> 
-                    <div className='w-full'>
-                        <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
-                            My Skills
-                        </h2>
-
-                        <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-6 xl:grid-cols-7 gap-4 p-4">
-                            {skillsList.map((skill) => (
-                                <div
-                                    key={skill.name}
-                                    className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:shadow-xl hover:scale-105"
-                                >
-                                    <skill.Icon className={`mb-2 ${skill.color}`} />
-                                    <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 text-center mt-1">
-                                        {skill.name}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-            {/* <Suspense >
-                <div className='h-screen w-screen'>
-                    <MySkillScene />
-                </div>
-            </Suspense> */}
-
-        </section>
+            <div className="flex justify-center items-center">
+                <h2
+                    ref={text1Ref}
+                    className="text-[100px] leading-[120px] font-bold flex flex-wrap gap-x-6 max-w-[1000px]"
+                >
+                    {"4+ years Of Experience, Building Strong Skills".split(" ").map((word, i) => (
+                        <span key={i} className="word opacity-20">
+                            {word}
+                        </span>
+                    ))}
+                </h2>
+            </div>
+            <Suspense>
+                <GlobalCanvas>
+                    <MySkillScene yRef={modelRef} />
+                </GlobalCanvas>
+            </Suspense>
+        </section >
     );
 };
 

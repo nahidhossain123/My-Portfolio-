@@ -12,18 +12,18 @@ import { Model } from "../component/Keyboard";
 import { Suspense } from "react";
 import ExperienceCard from "../component/ExperienceCard";
 import AllScenes from "../component/AllScenes";
+import About from "../component/About";
+import MySkillScene from "../component/MySkillScene";
 
 export default function Home() {
   return (
     <div className="dark:bg-black">
-      <div className="absolute h-full w-full bg-black">
-        <AuroraBackground />
-      </div>
       <Header />
       <Hero name="Nahid Hossain" title="Front-End Developer" tagline="Engineering clean, efficient code for the modern web" ctaTargetId="#projects" />
       <Skills />
       <Projects />
-      {/*<Experience /> */}
+      <Experience />
+      <About />
       {/* <About />
       <CareerTimeline /> */}
       {/* <Contact />
@@ -35,11 +35,9 @@ export default function Home() {
           </Canvas>
         </div>
       </Suspense> */}
-      <Suspense>
-        <GlobalCanvas>
-          <AllScenes />
-        </GlobalCanvas>
-      </Suspense>
+
+      <Contact />
+      <Footer />
     </div>
   );
 }

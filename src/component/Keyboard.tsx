@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, useGLTF } from '@react-three/drei'
+import { Text, useGLTF, useTexture } from '@react-three/drei'
 import { gsap } from 'gsap'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-
+useGLTF.preload('/keyboard.glb')
 
 export function Model(props) {
-    const texture = useLoader(THREE.TextureLoader, '/t5.png')
     const { nodes, materials } = useGLTF('/keyboard.glb')
     const [label, setLabel] = useState("")
     const shaderRef = useRef(null)

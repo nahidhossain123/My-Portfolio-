@@ -63,7 +63,7 @@ export default function ScrollingPaper({ curlProgress }) {
 
     const { progress, radius, foldStart } = useControls({
         progress: { value: 0.0, min: 0, max: 1 },
-        radius: { value: 0.5, min: 0.1, max: 1 },
+        radius: { value: 0.45, min: 0.1, max: 1 },
         foldStart: { value: 0.5, min: -5, max: 5 }
     });
 
@@ -74,7 +74,7 @@ export default function ScrollingPaper({ curlProgress }) {
         const progress = (scrollY / maxScroll)
         if (!materialRef.current) return;
 
-        console.log('scrollY', (2500 - scrollY) * 0.1, curlProgress.current.value)
+        console.log('scrollY', curlProgress.current.value)
         materialRef.current.uniforms.uProgress.value = curlProgress.current.value;
         materialRef.current.uniforms.uRadius.value = radius;
         materialRef.current.uniforms.uFoldStart.value = foldStart;

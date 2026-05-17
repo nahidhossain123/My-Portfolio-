@@ -23,6 +23,7 @@ export default function GlobalCanvas({ children }) {
 
     return (
         <Canvas
+            className="h-screen w-screen"
             style={{
                 position: "fixed",
                 inset: 0,

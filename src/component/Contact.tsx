@@ -59,18 +59,28 @@ const Contact: React.FC = () => {
     );
 
     return (
-        <section id="contact" className="relative py-20 h-screen flex justify-center items-center bg-gray-50 dark:bg-gray-900">
-            {/* <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-6xl font-extrabold text-center text-gray-900 dark:text-white mb-12 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
-                    CONTACT ME
-                </h2>
+        <section id="contact" className="relative py-20  bg-gray-50 dark:bg-gray-900 ">
+            <div className="p-20 container mx-auto border rounded-[100px]">
+                <div className='my-40'>
+                    <h2 className="text-[6vw] leading-[6vw] font-bold">
+                        <span className='block'> Want to </span>
+                        <span className='block'>know more</span>
+                        <span className='block'>about me</span>
+                    </h2>
+                    <p className='text-2xl font-bold'>Feel Free to contact. I am ready to build something impactful</p>
+                </div>
+
+                <div className='border-t'>
+                    <div className={'flex justify-end'}>
+                        <h4 className='text-[2vw] font-extrabold'>Let's Talk</h4>
+                    </div>
+                    <h4 className='text-[4vw] font-extrabold'>nahid96hossain@gmail.com</h4>
+                </div>
 
 
-               
-
-                <div className="md:flex md:space-x-10">
+                {/* <div className="md:flex md:space-x-10">
                     <div className="mt-10 md:mt-0 pt-6 md:pt-0 border-t md:border-t-0 md:border-l-0 border-gray-200 dark:border-gray-700 md:pl-8">
-                        <h3>FOR FURTHER ENQUIRIES</h3>
+
                         <ul className="space-y-5">
                             {contactInfo.map((item, index) => (
                                 <li key={index} className="flex items-start">
@@ -82,13 +92,9 @@ const Contact: React.FC = () => {
                             ))}
                         </ul>
                     </div>
-                </div>
-            </div> */}
-            <Suspense>
-                <div className='h-[110vh] w-screen'>
-                    <TelePhoneScene />
-                </div>
-            </Suspense>
+                </div> */}
+            </div>
+
         </section>
     );
 };

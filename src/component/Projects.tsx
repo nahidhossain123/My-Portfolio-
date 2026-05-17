@@ -228,9 +228,19 @@ const Projects: React.FC = () => {
     return (
         <section id="projects" className="py-20 bg-white dark:bg-black overflow-hidden">
             <div className="">
-                <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-10 border-b-4 border-indigo-500 pb-2 inline-block mx-auto">
-                    My Projects
-                </h2>
+                <div className='mx-10 mb-10'>
+                    <h2 className="text-4xl font-extrabold text-center text-gray-900 dark:text-white mb-10  pb-2 inline-block">
+                        My Recent
+                    </h2>
+
+                    <div className='text-[33vw] flex justify-between leading-[20vw]'>
+                        <div>W</div>
+                        <div>o</div>
+                        <div>r</div>
+                        <div>k</div>
+                        <div>s</div>
+                    </div>
+                </div>
 
                 {/* --- Filter Buttons --- */}
                 <div className="flex flex-wrap justify-center space-x-3 mb-12">
