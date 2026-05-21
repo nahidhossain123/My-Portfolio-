@@ -6,7 +6,7 @@ const LottieAnimated = ({
     src = "/SoftText.json",
     duration = 0.4,
     ease = "power1.out",
-    containerClassName = "w-screen h-screen absolute top-0 left-0 flex justify-center items-end pb-40"
+    containerClassName = "w-full h-full absolute top-0 left-0 flex flex-col justify-end items-center pb-20"
 }) => {
     const playerRef = useRef(null);
     const containerRef = useRef(null);
@@ -80,7 +80,7 @@ const LottieAnimated = ({
             className={containerClassName}
             style={{ cursor: 'crosshair' }}
         >
-            <div className='w-[90%]'>
+            <div className='w-[92%]'>
                 <DotLottiePlayer
                     ref={playerRef}
                     autoplay={false}
@@ -89,6 +89,7 @@ const LottieAnimated = ({
                     style={{ width: '100%', height: '100%' }}
                 />
             </div>
+            <h2 className='font-extrabold text-2xl'>Web & Mobile App Developer</h2>
         </div>
     );
 };

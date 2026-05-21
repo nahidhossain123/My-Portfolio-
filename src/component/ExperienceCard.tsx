@@ -1,127 +1,115 @@
-import { Environment, Lightformer } from '@react-three/drei'
-import { Canvas, extend, useThree } from '@react-three/fiber'
-import * as THREE from 'three'
-import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier'
-import { useControls } from 'leva'
-import React, { useEffect, useRef, useState } from 'react'
-import { debug } from 'util'
-import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
-import { useFrame } from '@react-three/fiber'
-extend({ MeshLineGeometry, MeshLineMaterial })
+import React, { forwardRef, useImperativeHandle, useRef } from 'react'
 
-const Card = ({ position = [0, 4, 0], maxSpeed = 50, minSpeed = 10 }) => {
-    const band = useRef(), fixed = useRef(), j1 = useRef(), j2 = useRef(), j3 = useRef(), card = useRef()
-    const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 2, linearDamping: 2 }
-    const vec = new THREE.Vector3(), ang = new THREE.Vector3(), rot = new THREE.Vector3(), dir = new THREE.Vector3() // prettier-ignore
-    const { width, height } = useThree((state) => state.size)
-    const [curve] = useState(() => new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()]))
-    const [dragged, drag] = useState(false)
-    const [hovered, hover] = useState(false)
-    const [isDragging, setIsDragging] = useState(false)
-
-    useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
-    useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
-    useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 0.4]) // prettier-ignore
-    useSphericalJoint(j3, card, [[0, 0, 0], [0, 0.8, 0]]) // prettier-ignore
-
-    // useEffect(() => {
-    //     if (hovered) {
-    //         document.body.style.cursor = dragged ? 'grabbing' : 'grab'
-    //         return () => void (document.body.style.cursor = 'auto')
-    //     }
-    // }, [hovered, dragged])
-
-    useFrame((state, delta) => {
-        if (dragged) {
-            vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera)
-            dir.copy(vec).sub(state.camera.position).normalize()
-            vec.add(dir.multiplyScalar(state.camera.position.length()));
-            [card, j1, j2, j3, fixed].forEach((ref) => ref.current?.wakeUp())
-            card.current?.setNextKinematicTranslation({ x: vec.x - dragged.x, y: vec.y - dragged.y, z: vec.z - dragged.z })
-        }
-        if (fixed.current) {
-            // Fix most of the jitter when over pulling the card
-            ;[j1, j2].forEach((ref) => {
-                if (!ref.current.lerped) ref.current.lerped = new THREE.Vector3().copy(ref.current.translation())
-                const clampedDistance = Math.max(0.1, Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())))
-                ref.current.lerped.lerp(ref.current.translation(), delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)))
-            })
-            // Calculate catmul curve
-            curve.points[0].copy(j3.current.translation())
-            curve.points[1].copy(j2.current.lerped)
-            curve.points[2].copy(j1.current.lerped)
-            curve.points[3].copy(fixed.current.translation())
-            band.current.geometry.setPoints(curve.getPoints(32))
-            // Tilt it back towards the screen
-            ang.copy(card.current.angvel())
-            rot.copy(card.current.rotation())
-            card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z })
-        }
-    })
-
-    return (
-        <>
-            <group position={position}>
-                <RigidBody ref={fixed} {...segmentProps} type='fixed' />
-                <RigidBody ref={j1} position={[0.5, 0, 0]} {...segmentProps} >
-                    <BallCollider args={[0.1]} />
-                </RigidBody>
-                <RigidBody ref={j2} position={[0.6, 0, 0]} {...segmentProps} >
-                    <BallCollider args={[0.1]} />
-                </RigidBody>
-                <RigidBody ref={j3} position={[0.7, 0, 0]} {...segmentProps} >
-                    <BallCollider args={[0.1]} />
-                </RigidBody>
-                <RigidBody ref={card} position={[0.8, 0, 0]} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'} >
-                    <CuboidCollider args={[0.4, 0.6, 0.01]} />
-                    <group
-                        onPointerOver={() => hover(true)}
-                        onPointerOut={() => hover(false)}
-                        onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-                        onPointerDown={(e) => (e.target.setPointerCapture(e.pointerId), drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))}
-                    >
-                        <mesh
-                            castShadow>
-                            <boxGeometry args={[0.8, 1.2, 0.01]} />
-                            <meshStandardMaterial color="white" />
-                        </mesh>
-                    </group>
-                </RigidBody>
-            </group>
-            {/* <mesh castShadow position={[0, 0, 0]}>
-                <boxGeometry args={[3, 4, 0.2]} />
-                <meshStandardMaterial color="white" />
-            </mesh> */}
-            <mesh ref={band}>
-                <meshLineGeometry />
-                <meshLineMaterial
-                    color="white"
-                    resolution={[width, height]}
-                    lineWidth={0.3}
-                    depthTest={false}
-                />
-            </mesh>
-        </>
-    )
+interface ExperienceCardProps {
+    company?: string;
+    duration?: string;
+    start?: string;
+    end?: string;
+    service?: string;
+    items?: { top: string; bottom: string }[],
+    color?: string;
 }
 
-const ExperienceCard = () => {
-    const { debug } = useControls({ debug: false })
+
+const ExperienceCard = forwardRef(({
+    company = "Jrnyfy Corp.",
+    duration = "1 Year",
+    start = "Jan 2023",
+    end = "Present",
+    service = "WEB/APP",
+    items,
+    color,
+
+}: ExperienceCardProps, ref) => {
+    const mainRef = useRef(null);     // 🔥 rotating part
+    const reverseRef = useRef(null);  // 🔥 inner gradient
+
+
+    // console.log('dragAmountRef', dragAmountRef.value)
     return (
-        <>
-            <ambientLight intensity={Math.PI} />
-            <Physics debug={debug} interpolate gravity={[0, -40, 0]} timeStep={1 / 60}>
-                <Card position={[2, 1.8, 0]} />
-            </Physics>
-            {/* <Environment background blur={0.75}>
-                <color attach="background" args={['black']} />
-                <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-                <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-                <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
-                <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
-            </Environment> */}
-        </>
+        <div className="w-[600px] relative">
+            <div className='absolute z-10 -left-10 top-[76px] bg-[linear-gradient(0deg,black_0%,gray_50%,gray_60%)] w-[60%] h-5'
+            />
+            {/* Top Section */}
+            <div ref={ref}>
+                <div className="relative px-8 pt-6 pb-10 bg-gray-950 rounded-t-[35px]">
+                    {/* Small top badge */}
+                    <div className={`mx-auto w-[120px] h-[120px] rounded-3xl flex flex-col items-center justify-center`} style={{ backgroundColor: color }}>
+                        <p className="font-bold text-sm">{service}</p>
+                        <div ref={reverseRef} className="w-10 h-10 rounded-full border-2 border-black mt-2 bg-black relative overflow-hidden" >
+                            <div className='absolute top-0 bottom-0 my-auto -right-2 bg-[linear-gradient(0deg,black_0%,gray_50%,gray_60%)] w-full h-5' />
+                        </div>
+                        <p className="text-xs mt-2">{duration}</p>
+                    </div>
+
+                    {/* Large WEB text */}
+                    <div className='flex items-end gap-2 mt-8'>
+                        <h1 className="text-[60px] leading-none font-black ">
+                            {company.split(' ')[0]}
+                        </h1>
+                        <h4 className="text-[30px] leading-none font-black">
+                            {company.split(' ')[1]}
+                        </h4>
+                    </div>
+                </div>
+
+                {/* Bottom Section */}
+                <div className="py-10 border-t-2 border-black rounded-b-[35px]"
+                    style={{ backgroundColor: color }}
+                >
+                    <h2 className="text-2xl font-extrabold tracking-tight leading-none mb-10 px-5">
+                        Contributions
+                    </h2>
+
+                    {/* Skills Row */}
+                    <div className="flex justify-between px-10">
+                        {items && items.map((item, i) => (
+                            <div key={i} className="relative flex flex-col items-center">
+
+                                {/* Top Text */}
+                                <p key={i} className="text-sm font-bold">
+                                    {item.top}
+                                </p>
+
+                                {/* Triangle */}
+                                <div className="w-0 h-0 border-l-8 border-r-8 border-b-10 border-l-transparent border-r-transparent border-b-black mt-1"></div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Divider Line */}
+                    <div className="w-full h-1 bg-black"></div>
+
+                    {/* Bottom Row */}
+                    <div className="flex justify-between px-5">
+                        {items && items.map((item, i) => (
+                            <div key={i} className="relative flex flex-col items-center">
+                                {/* Triangle */}
+                                <div className="w-0 h-0 border-l-8 border-r-8 border-t-10 border-l-transparent border-r-transparent border-t-black">
+                                </div>
+                                <p key={i} className="text-sm font-bold">
+                                    {item.bottom}
+                                </p>
+
+
+                            </div>
+                        ))}
+                    </div>
+
+
+                    {/* Divider */}
+                    <div className="border-t-2 border-dashed border-black my-10"></div>
+
+                    {/* Footer */}
+                    <div className="flex justify-between items-center text-2xl font-extrabold tracking-tight px-5">
+                        <span>{start}</span>
+                        <span className="text-5xl">→</span>
+                        <span>{end}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     )
-}
+})
 
 export default ExperienceCard

@@ -1,148 +1,144 @@
 'use client'
-import React, { useState, useMemo, Suspense, useRef } from 'react';
+import React, { useState, useMemo, Suspense, useRef, useEffect } from 'react';
 import { Github, ExternalLink, Code, Database, Server } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
 import ExperienceCard from './ExperienceCard';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { dynamicExperience, jrnyfyExperience, trenzaExperience } from '../utils/experience';
+import { motion } from "framer-motion";
+import { Draggable } from "gsap/Draggable";
+import { ScrollTrigger } from 'gsap/all';
 
-
+gsap.registerPlugin(Draggable);
+gsap.registerPlugin(ScrollTrigger);
 
 // --- Main Projects Component ---
 const Experience: React.FC = () => {
     const experienceRef = useRef<HTMLDivElement>(null)
-    const exp1Ref = useRef<HTMLDivElement>(null)
-    const exp2Ref = useRef<HTMLDivElement>(null)
-    const exp3Ref = useRef<HTMLDivElement>(null)
-    const cardsRef = useRef<HTMLDivElement>(null)
+    const expTextRef = useRef<HTMLHeadingElement>(null)
+    const cardsRef = useRef<HTMLDivElement[] | null>([])
+    const containerRef = useRef(null);
+
+
+    useEffect(() => {
+        const container = containerRef.current;
+        const cards = cardsRef.current;
+
+        // Set all cards pivot from top
+        gsap.set(cards, {
+            transformOrigin: "top center",
+        });
+
+        let lastX = 0;
+
+        Draggable.create(container, {
+            type: "x",
+            inertia: true,
+
+            onDrag() {
+                let delta = this.x - lastX;
+                lastX = this.x;
+
+                // Apply swing to each card
+                cards.forEach((card, i) => {
+                    gsap.to(card, {
+                        rotation: delta * 0.5, // control swing strength
+                        duration: 0.6,
+                    });
+                });
+            },
+
+            onRelease() {
+                // Swing back to rest
+                cards.forEach((card) => {
+                    gsap.to(card, {
+                        rotation: 0,
+                        duration: 1.2,
+                        ease: "elastic.out(1, 0.3)",
+                    });
+                });
+
+            },
+        });
+    }, []);
+    const maxX = 500; // adjust based on your UI
 
     useGSAP(() => {
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: experienceRef.current,
-                start: "10% 50%",
-                end: "90% 50%",
-                scrub: true,
-                markers: true,
-                invalidateOnRefresh: true,
-            }
+                start: "top 60%",
+                end: "bottom 20%",
+                toggleActions: "play reverse play reverse",
+            },
         });
 
         tl.fromTo(
-            exp1Ref.current,
-            {
-                rotationX: 90,
-                transformPerspective: 2000,
-                transformOrigin: "center center",
-            },
-            {
-                rotationX: 0,
-                ease: "none",
-            },
-            0
-        );
+            expTextRef.current,
+            { yPercent: 100 },
+            { yPercent: 0, duration: 0.8 }
+        )
+
         tl.fromTo(
-            exp2Ref.current,
-            {
-                rotationX: 90,
-                transformPerspective: 2000,
-                transformOrigin: "center center",
-            },
-            {
-                rotationX: 0,
-                ease: "none",
-            },
-            0.1
+            containerRef.current,
+            { xPercent: 50 },
+            { xPercent: 0, duration: 0.8 },
+            "-=0.4" // 👈 overlap for smoother effect
         );
-        tl.fromTo(
-            exp3Ref.current,
-            {
-                rotationX: 90,
-                transformPerspective: 2000,
-                transformOrigin: "center center",
-            },
-            {
-                rotationX: 0,
-                ease: "none",
-            },
-            0
-        );
-        tl.to(
-            cardsRef.current,
-            {
-                y: -100,
-                ease: "none",
-            },
-            0.5
-        );
+
     }, []);
+
     return (
-        <section ref={experienceRef} id="projects" className="py-40  bg-white dark:bg-black container mx-auto">
-            <div className='space-y-20'>
-                <div className='max-w-[550px]'>
-                    <p>Professional Experience</p>
-                    <h2 className="text-[5vw] leading-[5vw] font-bold ">
-                        Companies I Work With
-                    </h2>
-                </div>
-                <div ref={cardsRef} className="flex gap-5">
-                    <div ref={exp1Ref} className='space-y-5 w-full md:max-w-[40%] p-5 rounded-xl bg-gray-800 shadow-2xl backdrop-blur-2xl'>
+        <section ref={experienceRef} className="experience  bg-white dark:bg-black">
+            <div className="overflow-hidden">
+                <h2 ref={expTextRef} className="text-[12vw] font-bold text-center mb-10">
+                    Experience
+                </h2>
+            </div>
 
-                        <h3 className="text-5xl font-semibold">
-                            Aspyrer.com, Canada
-                        </h3>
-
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
-                            Role : Software Engineer (Remote)
-                        </p>
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
-                            Duration : Jan 2023 — Present
-                        </p>
-
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-300">
-                            Responsibilities : Worked on API integration, UI design, feature development, bug fixing, and performance optimization
-                            across both React.js web applications and React Native mobile apps.
-                        </p>
-                    </div>
-                    <div ref={exp2Ref} className='space-y-5 w-full md:max-w-[40%] p-5 rounded-xl bg-gray-800 shadow-2xl backdrop-blur-2xl'>
-
-                        <h3 className="text-5xl font-semibold">
-                            Dynamic Software Ltd.
-                        </h3>
-
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
-                            Role : Software Developer
-                        </p>
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-300">
-                            Duration : Apr 2022 — Jan 2023
-                        </p>
-
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-300">
-                            Responsibilities : Converted Figma designs into responsive user interfaces, developed and customized WordPress themes,
-                            and collaborated on Laravel + React-based applications to build scalable frontend features.
-                        </p>
-                    </div>
-                    <div ref={exp3Ref} className='space-y-5 w-full md:max-w-[40%] p-5 rounded-xl bg-gray-800 shadow-2xl backdrop-blur-2xl'>
-                        <h3 className="text-5xl font-semibold">
-                            Trenza Softwares
-                        </h3>
-
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                            Role:Software Engineer • Nov 2021 — Apr 2022
-                        </p>
-                        <p className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                            Duration : Nov 2021 — Apr 2022
-                        </p>
-
-                        <p className="mt-3 text-sm text-gray-600 leading-relaxed dark:text-gray-400">
-                            Responsibilities: Translated Figma designs into responsive user interfaces and assisted in developing and customizing
-                            WordPress themes, gaining hands-on experience in frontend development workflows.
-                        </p>
+            <div className='relative'>
+                <div className='absolute top-[156px] bg-[linear-gradient(0deg,black_0%,gray_50%,gray_100%)] w-full h-5' />
+                <div className="w-full">
+                    <div className="px-20 py-20 overflow-hidden">
+                        <div
+                            ref={containerRef}
+                            className="flex gap-10 cursor-grab active:cursor-grabbing"
+                        >
+                            <ExperienceCard
+                                ref={(el) => (cardsRef.current[0] = el)}
+                                company="Jrnyfy Corp."
+                                duration="3 Years"
+                                start="Jan 2023"
+                                end="Present"
+                                service="WEB/APP"
+                                items={jrnyfyExperience}
+                                color='#085C34'
+                            />
+                            <ExperienceCard
+                                ref={(el) => (cardsRef.current[1] = el)}
+                                company="Dynamic Software Ltd."
+                                duration="0.6 Year"
+                                start="Jun 2021"
+                                end="Dec 2023"
+                                service="WEB"
+                                items={dynamicExperience}
+                                color='#221EB4'
+                            />
+                            <ExperienceCard
+                                ref={(el) => (cardsRef.current[2] = el)}
+                                company="Trenza Softwares."
+                                duration="0.4 Year"
+                                start="Mar 2024"
+                                end="Present"
+                                service="WEB"
+                                items={trenzaExperience}
+                                color='#721C1F'
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </section >
     );
 };

@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import React, { useRef } from 'react'
 
-const SiteLogo = ({ firstName = "Nahid", lastName = "Hossain" }) => {
+const SiteLogo = ({ firstName = "Nahid", lastName = "Hossain", testStyle = 'text-xl' }) => {
     const logoRef = useRef<HTMLDivElement>(null)
     const animateWave = () => {
         if (!logoRef.current) return;
@@ -21,7 +21,7 @@ const SiteLogo = ({ firstName = "Nahid", lastName = "Hossain" }) => {
         });
     };
     return (
-        <div onMouseEnter={animateWave} ref={logoRef} className='flex items-center font-bold text-xl'>
+        <div onMouseEnter={animateWave} ref={logoRef} className={`flex items-center font-bold ${testStyle}`}>
             {firstName.split("").map((char, i) => (
                 <span
                     key={i}

@@ -1,7 +1,11 @@
 import React from 'react';
 import { Github, Linkedin, Twitter, Dribbble, LucideIcon } from 'lucide-react';
+import SiteLogo from './SiteLogo';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+gsap.registerPlugin(ScrollTrigger);
 
-// --- 1. Define TypeScript Interface ---
 
 /**
  * Interface for a single social link item
@@ -32,14 +36,48 @@ const socialLinks: SocialLink[] = [
 // --- 3. Footer Component ---
 
 const Footer: React.FC = () => {
+    const footerRef = React.useRef<HTMLDivElement>(null);
     const currentYear = new Date().getFullYear();
+    const socialLinksRef = React.useRef<HTMLDivElement>(null);
+    const siteLogoRef = React.useRef<HTMLDivElement>(null);
+    const copyrightRef = React.useRef<HTMLDivElement>(null);
+
+    useGSAP(() => {
+
+        let tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: footerRef.current,
+                start: "top 60%",
+                end: "bottom center",
+                toggleActions: "play reverse play reverse",
+            },
+        });
+
+        tl.from(socialLinksRef.current, {
+            opacity: 0,
+            yPercent: 100,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.03);
+        tl.from(siteLogoRef.current, {
+            opacity: 0,
+            yPercent: 100,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.03);
+        tl.from(copyrightRef.current, {
+            opacity: 0,
+            yPercent: 100,
+            duration: 1,
+            ease: "power2.out"
+        }, 0.03);
+    }, []);
+
 
     return (
-        <footer className="bg-gray-800 dark:bg-gray-950 py-8">
+        <footer ref={footerRef} className="bg-neutral-950 dark:bg-neutral-950 py-40">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                {/* Social Icons Container */}
-                <div className="flex justify-center space-x-6 mb-6">
+                <div ref={socialLinksRef} className="flex justify-center space-x-6 mb-6 overflow-hidden">
                     {socialLinks.map((link) => (
                         <a
                             key={link.name}
@@ -54,11 +92,13 @@ const Footer: React.FC = () => {
                         </a>
                     ))}
                 </div>
-
+                <div ref={siteLogoRef} className="flex justify-center mb-6 overflow-hidden">
+                    <SiteLogo testStyle="!text-[5vw] !font-extrabold" />
+                </div>
                 {/* Copyright Text */}
-                <div className="text-center text-gray-500 dark:text-gray-400 text-sm">
+                <div ref={copyrightRef} className="text-center text-gray-500 dark:text-gray-400 text-sm italic overflow-hidden">
                     <p>
-                        &copy; {currentYear} NAHID.DEV All rights reserved.
+                        &copy; {currentYear}  All rights reserved.
                     </p>
                 </div>
             </div>

@@ -22,10 +22,10 @@ const Skills: React.FC = () => {
     const text2Ref = useRef(null);
     const modelRef = useRef({ value: -4 })
     const [modelReady, setModelReady] = React.useState(false);
+    const skillsText = "4+ years Of Experience, Building Strong Skills".split(" ");
 
     useGSAP(() => {
         const words = gsap.utils.toArray(".word");
-        const words2 = gsap.utils.toArray(".word2");
 
         const tl = gsap.timeline({
             scrollTrigger: {
@@ -69,13 +69,16 @@ const Skills: React.FC = () => {
             <div className="flex justify-center items-center">
                 <h2
                     ref={text1Ref}
-                    className="text-[100px] leading-[120px] font-bold flex flex-wrap gap-x-6 max-w-[1000px]"
+                    className="text-[10vw] leading-none font-bold flex flex-wrap gap-x-6 container mx-auto"
                 >
-                    {"4+ years Of Experience, Building Strong Skills".split(" ").map((word, i) => (
+                    {skillsText.map((word, i) => (
                         <span key={i} className="word opacity-20">
                             {word}
                         </span>
-                    ))}
+                    ))}.
+                    <button className="text-[10vw] leading-none  px-8 py-2 bg-white text-black rounded-full text-sm font-bold">
+                        Click
+                    </button>
                 </h2>
             </div>
             <Suspense>

@@ -19,15 +19,18 @@ export default function Hero() {
   return (
     <div className="min-h-screen relative px-16">
       <div className="flex justify-between space-y-6 pt-40">
-        <h1 className='font-bold text-2xl '>
-          <span>Web & Mobile</span>
-          <span className='ml-22 block'>App Developer</span>
+        <h1 className='font-extrabold text-[5vw]'>
+          HEY!
         </h1>
-        <h3 className='font-bold text-xl max-w-[400px]'>
-          Frontend developer crafting animated, responsive, and immersive user interfaces using React, GSAP, and modern web technologies.
-        </h3>
+        <h1 className='font-extrabold text-[5vw]'>
+          I'M
+        </h1>
+      </div>
+      <div className="text-lg max-w-2xl mt-10">
+        I'm a web and mobile app developer with a passion for creating intuitive and engaging digital experiences. With expertise in React, React Native, and Node.js, I specialize in building responsive and user-friendly applications that solve real-world problems. Let's work together to bring your ideas to life!
       </div>
       <LottieAnimated />
+
       {/* Scroll indicator */}
       <div className="flex justify-center mt-20 md:mt-32 pb-8">
         <div className="animate-bounce">

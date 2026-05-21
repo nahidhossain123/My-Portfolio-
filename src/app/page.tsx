@@ -14,6 +14,7 @@ import ExperienceCard from "../component/ExperienceCard";
 import AllScenes from "../component/AllScenes";
 import About from "../component/About";
 import MySkillScene from "../component/MySkillScene";
+import WhyMe from "../component/WhyMe";
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
       <Skills />
       <Projects />
       <Experience />
-      <About />
+      {/* <About /> */}
       {/* <About />
       <CareerTimeline /> */}
       {/* <Contact />
@@ -35,7 +36,7 @@ export default function Home() {
           </Canvas>
         </div>
       </Suspense> */}
-
+      <WhyMe />
       <Contact />
       <Footer />
     </div>
