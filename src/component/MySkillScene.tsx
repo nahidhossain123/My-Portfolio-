@@ -1,49 +1,24 @@
 'use client';
 
-import { useRef } from 'react'
-import { Model } from './Keyboard'
-
-import * as THREE from 'three'
-
+import { useRef } from 'react';
+import { Model } from './Keyboard';
+import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
+// 🔹 Type for your animated ref
+type YRefType = React.MutableRefObject<{
+    value: number;
+}>;
 
+// 🔹 Props type
+interface MySkillSceneProps {
+    yRef: YRefType;
+}
 
-const MySkillScene = ({ yRef }) => {
+const MySkillScene: React.FC<MySkillSceneProps> = ({ yRef }) => {
 
-    // const sectionRef = useRef(null);
-    // const text1Ref = useRef(null);
-    // const text2Ref = useRef(null);
-    const modelRef = useRef(null)
-    // const [modelReady, setModelReady] = React.useState(false);
-
-    // useGSAP(() => {
-    //     const words = gsap.utils.toArray(".word");
-    //     const words2 = gsap.utils.toArray(".word2");
-
-    //     const tl = gsap.timeline({
-    //         scrollTrigger: {
-    //             trigger: '#skills',
-    //             start: "50% center",
-    //             end: "bottom center",
-    //             scrub: true,
-    //         },
-    //     });
-
-    //     // 🔹 Word highlight (main effect)
-    //     tl.fromTo(modelRef.current.position,
-    //         { y: -10 },
-    //         { y: 0 }
-    //     );
-
-    //     tl.fromTo(modelRef.current.position,
-    //         { y: 0 },
-    //         { y: 10 }
-    //         , 0.8);
-
-
-
-    // },);
+    // 🔹 Three.js group ref
+    const modelRef = useRef<THREE.Group | null>(null);
 
     useFrame(() => {
         if (!modelRef.current) return;
@@ -54,15 +29,12 @@ const MySkillScene = ({ yRef }) => {
             0.1
         );
     });
+
     return (
-
-
-        <group ref={modelRef} >
+        <group ref={modelRef}>
             <Model scale={3} />
         </group>
+    );
+};
 
-
-    )
-}
-
-export default MySkillScene
+export default MySkillScene;

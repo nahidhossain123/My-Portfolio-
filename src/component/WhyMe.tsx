@@ -127,10 +127,10 @@ const WhyMe = () => {
     };
 
     return (
-        <div ref={containerRef} className="h-screen w-full overflow-hidden relative bg-neutral-950 text-white select-none">
+        <div ref={containerRef} className="h-screen w-full overflow-hidden relative bg-neutral-950 text-white select-none px-5 md:px-0">
 
             {/* LAYER 1: INTRO ANIMATION */}
-            <div ref={introLayerRef} className="absolute inset-0 flex flex-col justify-center items-center px-4 z-10 w-full">
+            <div ref={introLayerRef} className="hidden md:flex absolute inset-0 flex-col justify-center items-center px-4 z-10 w-full">
                 <div className="w-full flex flex-col items-center">
                     <h3 ref={introText1Ref} className="text-[14vw] font-bold tracking-tighter leading-none">
                         {splitWords("Experience to")}
@@ -148,13 +148,13 @@ const WhyMe = () => {
             </div>
 
             {/* LAYER 2: THE "WHY ME" REVEAL LIST */}
-            <div ref={contentLayerRef} className="container mx-auto absolute inset-0 left-0 flex flex-col justify-center items-start z-0 w-full initialization-hidden">
+            <div ref={contentLayerRef} className="container mx-auto absolute inset-0 left-0 flex flex-col justify-center items-start z-0 w-full initialization-hidden px-5 md:px-0">
                 <div className="w-full space-y-2">
                     {rowsData.map((row, index) => (
                         <div key={index} className="w-full block py-4">
                             <div ref={(el) => { if (el) rowRefs.current[index] = el; }}>
                                 {row.isHeader ? (
-                                    <h3 className="text-[5vw] font-bold tracking-tight text-neutral-200 uppercase mb-4">
+                                    <h3 className="text-[12vw] md:text-[5vw] font-bold tracking-tight text-neutral-200 uppercase mb-4">
                                         {splitWords(row.title)}
                                     </h3>
                                 ) : (

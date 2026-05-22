@@ -30,7 +30,7 @@ const SiteLogo = ({ firstName = "Nahid", lastName = "Hossain", testStyle = 'text
                     {char === " " ? "\u00A0" : char}
                 </span>
             ))}
-            <span className='mx-2 letter w-3 h-3 inline-block bg-white'></span>
+            <span className='mx-2 letter w-3 h-3 inline-block bg-white rounded-lg'></span>
             {lastName.split("").map((char, i) => (
                 <span
                     key={i}

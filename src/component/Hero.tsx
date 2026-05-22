@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import SplitText, { ExpandableHero, HeroSection, HeroText } from './SplitText';
 import LottieAnimated from './TestJuanMora';
+import { useGSAP } from '@gsap/react';
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,23 +13,49 @@ export default function Hero() {
   const descriptionRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLElement>(null);
+  const text1Ref = useRef<HTMLDivElement>(null)
+  const descRef = useRef<HTMLDivElement>(null)
+
+  useGSAP(() => {
+    const tl = gsap.timeline()
+    tl.from(text1Ref.current, {
+      y: -100,
+      opacity: 0,
+      duration: 1
+    }, 0)
+    tl.to(descRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 1
+    }, 0)
+  }, [])
 
 
 
   return (
-    <div className="min-h-screen relative px-16">
-      <div className="flex justify-between space-y-6 pt-40">
-        <h1 className='font-extrabold text-[5vw]'>
+    <div className="min-h-screen relative px-5 md:px-16 bg-neutral-950">
+      <div ref={text1Ref} className="flex flex-col md:flex-row justify-between space-y-6 pt-40">
+        <h1 className='font-extrabold text-center text-[30vw] md:text-[5vw]'>
           HEY!
         </h1>
-        <h1 className='font-extrabold text-[5vw]'>
+        <h2 className='font-extrabold text-center text-[5vw]'>
           I'M
-        </h1>
+        </h2>
       </div>
-      <div className="text-lg max-w-2xl mt-10">
+      <div ref={descRef} className="hidden md:block text-lg max-w-2xl mt-10 overflow-hidden">
         I'm a web and mobile app developer with a passion for creating intuitive and engaging digital experiences. With expertise in React, React Native, and Node.js, I specialize in building responsive and user-friendly applications that solve real-world problems. Let's work together to bring your ideas to life!
       </div>
-      <LottieAnimated />
+      <div className="hidden md:block">
+        <LottieAnimated />
+      </div>
+      <div className="block md:hidden text-lg max-w-2xl mt-10">
+        <h2 className='font-extrabold text-center text-[16vw]'>
+          Nahid
+        </h2>
+        <h4 className='font-extrabold text-center text-[4vw]'>
+          Web & App Developer
+        </h4>
+      </div>
 
       {/* Scroll indicator */}
       <div className="flex justify-center mt-20 md:mt-32 pb-8">

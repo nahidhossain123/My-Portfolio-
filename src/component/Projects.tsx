@@ -258,7 +258,7 @@ const Projects: React.FC = () => {
                 </div>
 
                 {/* --- Project Grid --- */}
-                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-5 ">
                     {filteredProjects.length > 0 ? (
                         filteredProjects.map(project => (
                             <div className='card'>

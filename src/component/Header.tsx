@@ -35,44 +35,36 @@ const Header: React.FC<HeaderProps> = ({
     const navRef = useRef<HTMLElement>(null);
 
 
-    useEffect(() => {
-        const lenis = new Lenis({
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            duration: 1.2,
-        });
+    // useEffect(() => {
+    //     const lenis = new Lenis({
+    //         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    //         duration: 1.2,
+    //     });
 
-        lenisRef.current = lenis;
+    //     lenisRef.current = lenis;
 
-        function raf(time: number) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
+    //     function raf(time: number) {
+    //         lenis.raf(time);
+    //         requestAnimationFrame(raf);
+    //     }
+    //     requestAnimationFrame(raf);
 
-        return () => lenis.destroy();
-    }, []);
-
-    useGSAP(() => {
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        // Animate navigation in
-        tl.from(navRef.current, {
-            opacity: 0,
-            y: -30,
-            duration: 0.8,
-        }, 0);
-    }, {})
+    //     return () => lenis.destroy();
+    // }, []);
 
     return (
         <header className={`fixed w-full z-50`}>
             <div className="w-full">
-                <nav ref={navRef} className="flex justify-between items-center px-8 py-6 md:px-16 md:py-8">
+                <nav className="flex justify-center md:justify-between items-center px-8 py-6 md:px-16 md:py-8">
                     <SiteLogo />
-                    <div className="hidden md:flex gap-8 text-sm text-gray-300">
-                        <a href="#about" className="hover:text-pink-400 duration-300">About</a>
-                        <a href="#experience" className="hover:text-pink-400 duration-300">Experience</a>
-                        <a href="#works" className="hover:text-pink-400 duration-300">Works</a>
+                    <div className="hidden md:flex items-center  text-gray-300">
+                        <a href="#about" className="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full flex">About</a>
+                        <span className='mx-1 letter w-6 h-6 inline-block bg-white rounded-lg'></span>
+                        <a href="#works" className="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full flex">Works</a>
                     </div>
-                    <Button text='Get In Touch' />
+                    <div className='hidden md:block'>
+                        <Button text='Get In Touch' />
+                    </div>
                 </nav>
             </div>
         </header>

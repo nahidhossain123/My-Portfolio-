@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <div className="dark:bg-black">
       <Header />
-      <Hero name="Nahid Hossain" title="Front-End Developer" tagline="Engineering clean, efficient code for the modern web" ctaTargetId="#projects" />
+      <Hero />
       <Skills />
       <Projects />
       <Experience />

@@ -7,14 +7,7 @@ import { cn } from '@/src/utils';
 export default function SplashScreen({ children }: { children: React.ReactNode }) {
     const [isVisible, setIsVisible] = useState(true);
     const [shouldRender, setShouldRender] = useState(true);
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsVisible(false);
-        }, 3000);
-        return () => {
-            clearTimeout(timer);
-        };
-    }, []);
+
     if (!shouldRender) return <>{children}</>;
     return (
         <>

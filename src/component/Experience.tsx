@@ -90,10 +90,11 @@ const Experience: React.FC = () => {
     }, []);
 
     return (
-        <section ref={experienceRef} className="experience  bg-white dark:bg-black">
+        <section ref={experienceRef} className="experience  bg-white dark:bg-black mt-20 md:mt-40">
             <div className="overflow-hidden">
-                <h2 ref={expTextRef} className="text-[12vw] font-bold text-center mb-10">
-                    Experience
+                <h2 ref={expTextRef} className="text-[16vw] md:text-[5vw] leading-none font-bold text-center mb-10">
+                    <span className="block">Professional</span>
+                    <span className="block">Experience</span>
                 </h2>
             </div>
 
