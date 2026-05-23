@@ -1,19 +1,9 @@
 'use client';
 // Skills.tsx
-import React, { Suspense, useEffect, useRef } from 'react';
-import {
-    Code, Type, Atom, Component, GitBranch, Palette, Zap, Server, SquareDashedKanban, FileText, Wrench
-} from 'lucide-react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import MySkillScene from './MySkillScene';
-import { Environment, View } from '@react-three/drei';
-import ScrollingPaper from './ScrollingPaper';
-import { Model } from './Keyboard';
 import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/all';
 import gsap from 'gsap';
-import { useThree } from '@react-three/fiber';
-import { Vector3 } from 'three';
 import GlobalCanvas from './ViewCanvas';
 
 const Skills: React.FC = () => {
@@ -29,9 +19,10 @@ const Skills: React.FC = () => {
     const lettersRef = useRef<HTMLSpanElement[]>([])
     const clickOverlayRef = useRef<HTMLDivElement>(null)
     const hoverRef = useRef<HTMLSpanElement>(null)
-    const svgRef = useRef<HTMLDivElement>(null)
-    const pathRef = useRef()
+    // const svgRef = useRef<HTMLDivElement>(null)
+    // const pathRef = useRef()
 
+    const [isModal, setIsModal] = useState(false)
 
     useGSAP(() => {
         const words = gsap.utils.toArray(".word");
@@ -70,13 +61,14 @@ const Skills: React.FC = () => {
 
     }, { scope: sectionRef });
 
-    const btnRef = useRef(null)
+    const btnRef = useRef<HTMLButtonElement>(null)
 
     useEffect(() => {
+        if (!btnRef.current) return
         const el = btnRef.current
         const clickOverlay = clickOverlayRef.current
 
-        const hoverEl = el.querySelector('.hover')
+        const hoverEl = hoverRef.current
 
         const tl = gsap.timeline({ paused: true })
 
@@ -173,7 +165,9 @@ const Skills: React.FC = () => {
     //         },
     //     })
     // }, [])
-
+    const handleModal = () => {
+        setIsModal(!isModal)
+    }
 
     return (
         <section
@@ -211,7 +205,7 @@ const Skills: React.FC = () => {
 
 
                         {/* Hover */}
-                        <span ref={hoverRef} className="hover absolute inset-0 flex items-center justify-center text-white text-[2vw] leading-none opacity-0 will-change-transform">
+                        <span ref={hoverRef} className="absolute inset-0 flex items-center justify-center text-white text-[2vw] leading-none opacity-0 will-change-transform">
                             Who is little curious?
                         </span>
                         {/* Hover */}
@@ -241,9 +235,24 @@ const Skills: React.FC = () => {
             </div> */}
             <Suspense>
                 <GlobalCanvas>
-                    <MySkillScene yRef={modelRef} />
+                    <MySkillScene yRef={modelRef} onClick={handleModal} />
                 </GlobalCanvas>
             </Suspense>
+            {isModal && (<div className=" md:hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+                <div className="bg-white p-6 rounded">
+                    <h2>Modal Title</h2>
+                    <p>Canvas object clicked</p>
+
+                    <button
+                        onClick={() => {
+                            setIsModal(false)
+                        }}
+                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>)}
         </section >
     );
 };

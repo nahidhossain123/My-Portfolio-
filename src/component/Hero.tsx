@@ -2,10 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import LottieAnimated from './TestJuanMora';
+import LottieAnimated from './LottieAnimated';
 import { useGSAP } from '@gsap/react';
+import { useLoader } from '../app/hooks/contextApi/LoaderContenxt';
 
 export default function Hero() {
+  const startAnimation = useLoader();
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const nameLeftRef = useRef<HTMLHeadingElement>(null);
@@ -15,20 +17,37 @@ export default function Hero() {
   const navRef = useRef<HTMLElement>(null);
   const text1Ref = useRef<HTMLDivElement>(null)
   const descRef = useRef<HTMLDivElement>(null)
-
+  const lottieRef = useRef<HTMLDivElement>(null)
+  const tl = useRef<GSAPTimeline | null>(null);
   useGSAP(() => {
-    const tl = gsap.timeline()
-    tl.from(text1Ref.current, {
-      y: -100,
+    tl.current = gsap.timeline({ paused: true })
+    tl.current.from(text1Ref.current, {
+      y: 100,
       opacity: 0,
-      duration: 1
-    }, 0)
-    tl.to(descRef.current, {
-      y: 0,
-      opacity: 1,
-      duration: 1
-    }, 0)
+      duration: 1,
+      ease: 'power1.out'
+    })
+    tl.current.from(descRef.current, {
+      y: 100,
+      opacity: 0,
+      duration: 1,
+      ease: 'power1.out'
+    }, '<').from(lottieRef.current,
+      {
+        opacity: 0,
+        duration: 1,
+        ease: 'power1.out'
+      },
+      '+=0.1'
+    )
   }, [])
+
+  useEffect(() => {
+    if (startAnimation) {
+      console.log('Animation')
+      tl.current?.play();
+    }
+  }, [startAnimation]);
 
 
 
@@ -42,10 +61,12 @@ export default function Hero() {
           I'M
         </h2>
       </div>
-      <div ref={descRef} className="hidden md:block text-lg max-w-2xl mt-10 overflow-hidden">
-        I'm a web and mobile app developer with a passion for creating intuitive and engaging digital experiences. With expertise in React, React Native, and Node.js, I specialize in building responsive and user-friendly applications that solve real-world problems. Let's work together to bring your ideas to life!
+      <div className="hidden md:block text-lg max-w-2xl mt-10 overflow-hidden">
+        <p ref={descRef}>
+          I'm a web and mobile app developer with a passion for creating intuitive and engaging digital experiences. With expertise in React, React Native, and Node.js, I specialize in building responsive and user-friendly applications that solve real-world problems. Let's work together to bring your ideas to life!
+        </p>
       </div>
-      <div className="hidden md:block">
+      <div ref={lottieRef} className="hidden md:block ">
         <LottieAnimated />
       </div>
       <div className="block md:hidden text-lg max-w-2xl mt-10">

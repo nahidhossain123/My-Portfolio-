@@ -1,30 +1,19 @@
 'use client'
-import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
-import TelePhoneScene from './ImagePlane';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import { Mail, Phone } from 'lucide-react'
 import Image from 'next/image';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
-// Define the shape of the form data (omitted for brevity)
-interface ContactForm { name: string; email: string; message: string; }
-interface FormErrors { name?: string; email?: string; message?: string; }
-
-// --- Contact Details Data (Easily editable) ---
-const contactInfo = [
-    { icon: <Mail className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />, text: "nahid96hossain@gmail.com", href: "mailto:nahid96hossain@gmail.com" },
-    { icon: <Phone className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />, text: " 01864322827", href: "mobile: 01864322827" },
-];
 
 // --- Main Contact Component ---
 const Contact: React.FC = () => {
-    const contactContainerRef = useRef(null);
+    const contactContainerRef = useRef<HTMLDivElement>(null);
     const cursorRef = useRef(null);
-    const tl = useRef(null);
+    const tl = useRef<GSAPTimeline | null>(null);
     // Quick references for ultra-smooth mouse tracking
-    const xTo = useRef(null);
-    const yTo = useRef(null);
+    const xTo = useRef<((value: number) => void) | null>(null);
+    const yTo = useRef<((value: number) => void) | null>(null);
     const [copied, setCopied] = useState(false);
     const text1Ref = useRef(null);
     const text2Ref = useRef(null);
@@ -42,43 +31,33 @@ const Contact: React.FC = () => {
         }
     }, []);
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
         if (!contactContainerRef.current || !xTo.current || !yTo.current) return;
-
-        // Get boundaries of the card container
         const rect = contactContainerRef.current.getBoundingClientRect();
-
-        // Calculate precise mouse coordinates relative to this container
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
 
-        // Define the offset (distance) you want maintained from the pointer.
         const gap = 20;
 
-        // Push the offset coordinates to the GSAP pipeline.
-        // Adding 'gap' pushes the text 20px to the right and 20px down from the pointer tip.
         gsap.to(cursorRef.current, {
             x: mouseX + gap,
             y: mouseY + gap,
-            duration: 0.6,       // Time it takes to travel to the point
-            delay: 0.08,         // Literal time delay before moving (e.g., 80ms behind your wrist)
+            duration: 0.6,
+            delay: 0.08,
             ease: "power2.out",
-            overwrite: "auto"    // Crucial: Kills previous mouse moves so animations don't stack up
+            overwrite: "auto"
         });
     };
 
-    const handleMouseEnter = (e) => {
+    const handleMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
         if (!cursorRef.current || !contactContainerRef.current) return;
         const q = gsap.utils.selector(contactContainerRef);
 
-        // Snap to the cursor position immediately on initial entry 
-        // so it doesn't do a giant lag jump from the top-left (0,0) corner
         const rect = contactContainerRef.current.getBoundingClientRect();
         const initX = e.clientX - rect.left + 20;
         const initY = e.clientY - rect.top + 20;
         gsap.set(cursorRef.current, { x: initX, y: initY });
 
-        // Fade and scale up the text smoothly over 0.4 seconds
         gsap.to(cursorRef.current, {
             scale: 1,
             opacity: 1,
@@ -218,14 +197,12 @@ const Contact: React.FC = () => {
                             viewBox="0 0 160 113"
                             className="w-full h-full rotate-y-180"
                         >
-                            {/* Background Cream/Paper Fill */}
                             <path
-                                className="text-amber-100/90" /* Tailwind fallback color */
+                                className="text-white"
                                 fill={'currentColor'}
                                 d="M39.558 57.852c-6.279 2.745-9.301 18.233-10.028 25.633l30.128-4.658 9.611 11.807c1.55-.215 4.934-.889 6.075-1.871 1.425-1.228 13.074-8.424 14.008-9.05.748-.5 18.168-7.136 26.784-10.391l15.87-7.03 18.692-2.263 2.661-1.609c-.27-.63-2.732-3.014-10.426-7.497-7.693-4.484-51.767-15.092-72.842-19.835-1.816-.042-6.327.1-9.837 1-3.51.901-9.217 7.65-11.632 10.91l2.728 8.855 1.363 4.427c-1.769-.62-6.877-1.174-13.155 1.572Z"
                             />
 
-                            {/* Sketch / Line Art Elements */}
                             <g className="text-stone-800" fill={'currentColor'}>
                                 <path d="M58.124 44.003c9.422 1.341 18.924 2.08 28.37 3.22 4.692.565 9.37 1.248 14.057 1.87 4.717.63 9.428 1.284 14.11 2.124 2.615.47 5.21 1.033 7.804 1.609 1.331.294 2.658.593 3.99.877 1.119.237 2.283.297 3.276.93.449.285.738.728.674 1.28-.054.468-.394 1.019-.901 1.116-3.711.688-7.455.61-11.201.348-3.746-.262-7.576-.647-11.381-.778-8.233-.277-16.475-.187-24.706.143-8.296.337-16.605.488-24.9.83-3.896.158-7.79.46-11.684.609-1.671.064-3.37.11-4.898.832-.496.234-1.08.711-1.543 1.21a12.753 12.753 0 0 0-1.45 1.912c-3.568 5.658-5.716 12.52-6.206 19.11-.061.798-.092 1.592-.098 2.392l-2.156-1.54c8.29-1.693 16.634-3.086 24.925-4.774 8.29-1.688 16.517-3.51 24.761-5.35 8.189-1.828 16.388-3.61 24.584-5.412 8.198-1.8 16.374-3.682 24.596-5.376 4.066-.838 8.169-1.79 12.289-2.32 3.535-.453 7.217-.27 10.606-1.21.781-.218 1.575-.508 2.182-.822l-.236 2.688c-1.343-1.272-2.597-2.108-4.212-3.017-1.751-.985-3.574-1.826-5.421-2.61-3.651-1.549-7.358-3-11.037-4.477-8.566-3.435-17.386-6.206-26.313-8.529-8.97-2.336-18.06-4.208-27.19-5.801-2.145-.376-4.298-.705-6.44-1.1-1.97-.368-3.986-.78-5.944-.884-.972-.052-1.968-.052-2.931.1-.203.031-.065.011-.021.007-.123.024-.247.048-.373.078-.205.05-.408.108-.605.173-.478.16-.727.274-1.049.445-1.702.899-3.234 2.177-4.646 3.375-1.412 1.197-3.15 2.462-4.466 3.652-.725.66-1.324 1.31-1.72 2.117-.047.096-.2.535-.113.233-.047.168-.081.336-.12.506-.053.25.004-.254.002.004-.003.078-.007.151-.006.227 0 .208.023.413.037.62.03.333.016.094.002.022.02.107.043.212.072.32.041.164.081.323.13.483.138.445.3.882.476 1.31.336.812.566 1.25.995 2.133.758 1.566 1.329 3.112 1.818 4.774.377 1.282-.113 2.736-1.662 2.785-.916.03-1.718-.73-1.747-1.644-.03-.916.73-1.718 1.644-1.747l.085-.003-.86.265.057-.032-.588.637-.057.473c-.001.51-.034.623-.094.34-.037-.06-.048-.157-.073-.221-.063-.192-.137-.386-.196-.58-.123-.4-.2-.809-.34-1.203-.125-.363-.27-.715-.422-1.065-.034-.08-.07-.154-.104-.234-.118-.266.1.208-.027-.059l-.307-.645c-.79-1.628-1.706-3.285-2.059-5.074-.19-.956-.27-1.915-.055-2.873.232-1.032.796-1.954 1.428-2.785 1.232-1.624 3-2.736 4.552-4.017 1.445-1.194 3.09-2.692 4.742-3.855 1.653-1.163 3.573-2.074 5.672-2.36 2.098-.286 4.276-.023 6.355.301 2.04.314 4.066.727 6.1 1.066 9.262 1.539 18.485 3.346 27.598 5.603 9.198 2.28 18.274 5.03 27.13 8.399 3.963 1.507 7.874 3.152 11.81 4.731 3.935 1.579 7.481 3.106 10.774 5.47a19.189 19.189 0 0 1 2.034 1.668c.733.698.766 2.167-.236 2.688-3.401 1.769-7.238 2.004-10.997 2.255-3.942.263-7.572 1.007-11.499 1.784-8.231 1.633-16.414 3.495-24.606 5.31-8.264 1.834-16.542 3.608-24.803 5.45-8.24 1.838-16.484 3.678-24.75 5.4-8.328 1.73-16.695 3.226-25.051 4.79-1.028.19-2.058.39-3.087.59-1.03.2-2.172-.36-2.157-1.541.052-3.578.616-7.165 1.506-10.627.882-3.433 2.102-6.807 3.776-9.933 1.675-3.127 3.737-6.634 7.508-7.656 1.773-.478 3.629-.545 5.452-.597 1.975-.058 3.94-.222 5.915-.325 8.47-.449 16.946-.521 25.422-.819 8.408-.295 16.806-.492 25.217-.269 3.983.108 7.94.35 11.907.743 3.822.378 7.655.73 11.502.528a27.955 27.955 0 0 0 2.774-.29l-.571 2.448c-.744-.51-1.552-.56-2.507-.774-1.163-.292-2.317-.599-3.475-.905-2.34-.614-4.68-1.228-7.038-1.769-4.546-1.043-9.156-1.824-13.759-2.584s-9.287-1.62-13.951-2.299c-4.664-.678-9.3-1.239-13.95-1.858-5.28-.7-10.535-1.485-15.765-2.507-.154-.03-.098-.259.053-.237l-.01-.016Z"></path>
                                 <path d="M142.136 61.06c-.812.03-1.492.397-2.175.8-.683.405-1.399.757-2.137 1.07-1.623.689-3.277 1.248-4.956 1.783-3.305 1.054-6.584 2.163-9.822 3.422-3.237 1.259-6.481 2.6-9.721 3.91-3.24 1.309-6.531 2.453-9.814 3.636-6.425 2.313-12.765 4.802-18.785 8.05a87.771 87.771 0 0 0-4.474 2.586c-1.105.687-2.211 1.37-3.22 2.195-.335.275.25-.216-.093.079l-.318.27c-.221.189-.44.373-.66.563-.555.469-1.11.937-1.688 1.372-.896.677-1.982 1.427-3.136 1.516-1.154.09-2.176-.61-3.033-1.298-.856-.687-1.676-1.562-2.436-2.419-.664-.751-1.316-1.52-1.977-2.277-.662-.756-1.358-1.538-1.95-2.362-.276-.384-2.865-3.592-3.096-4.003-.25-.45-.35-.857-.448-1.354-.074-.388.215-.838.66-.709.362.105.75.18 1.077.376.371.224.72.509 1.067.772.714.547 3.676 3.969 4.323 4.59.647.622 1.273 1.322 1.892 2.001.69.761 1.398 1.508 2.141 2.222a13.2 13.2 0 0 0 1.082.952c.077.057.386.255.01.015.083.05.163.107.248.162.132.077.769.359.23.146.062.026.14.043.208.048-.51-.059-.29-.019-.158-.032-.562.051-.051-.034.115-.08.352-.1-.32.179.024-.008.108-.06.217-.116.32-.175.269-.155.532-.326.782-.507.478-.337.935-.698 1.385-1.067.116-.094.227-.187.342-.281.374-.309-.232.198.132-.113.282-.24.566-.476.848-.716 2.233-1.87 4.857-3.291 7.416-4.66 6.06-3.252 12.442-5.79 18.921-8.06 3.288-1.153 6.58-2.294 9.865-3.459 3.284-1.165 6.538-2.415 9.825-3.572 3.612-1.27 7.259-2.402 10.975-3.321 1.84-.454 3.69-.889 5.514-1.392 1.525-.42 3.085-1.33 4.713-.992.183.038.15.31-.032.32l.014.001Z"></path>
@@ -255,10 +232,8 @@ const Contact: React.FC = () => {
                     >
                         {copied ? 'Awesome! Copied! ✓' : 'Copy Email'}
                     </div>
-                    {/* Background White Overlay (Starts at height 0) */}
                     <div className='overlay absolute left-0 bottom-0 w-full h-0 bg-white z-0 pointer-events-none' />
 
-                    {/* Main Content (Wrapped in z-10 so it stays above the overlay) */}
                     <div className='relative z-10'>
                         <div className='flex justify-between items-center'>
                             <Image
@@ -271,7 +246,6 @@ const Contact: React.FC = () => {
                             <h4 className='text-[4vw] md:text-[2vw] font-extrabold'>Book a Discovery Call</h4>
                         </div>
 
-                        {/* Email Display Container */}
                         <h4 className='absolute left-0 bottom-0 top-0 m-auto z-10 text-[4vw] leading-none font-extrabold text-black select-none pointer-events-none min-h-[5vw] flex flex-wrap'>
                             {email.split("").map((char, index) => (
                                 <span

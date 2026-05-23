@@ -1,13 +1,9 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { Environment } from "@react-three/drei";
-
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
 import { Vector3 } from "three";
-import { EffectComposer, Noise, Vignette } from "@react-three/postprocessing";
 
 function Rig() {
     const { camera, mouse } = useThree()
@@ -19,7 +15,11 @@ function Rig() {
     })
 }
 
-export default function GlobalCanvas({ children }) {
+interface GlobalCanvasType {
+    children: ReactNode
+}
+
+export default function GlobalCanvas({ children }: GlobalCanvasType) {
 
     return (
         <Canvas
@@ -33,14 +33,9 @@ export default function GlobalCanvas({ children }) {
         >
             <Rig />
             {children}
-
             <ambientLight intensity={0.3} />
             <pointLight position={[2, 2, 2]} intensity={1} />
             <Environment preset="city" />
-            {/* <EffectComposer>
-                <Noise opacity={0.02} />
-                <Vignette eskil={false} offset={0.1} darkness={1.3} />
-            </EffectComposer> */}
         </Canvas>
     );
 }

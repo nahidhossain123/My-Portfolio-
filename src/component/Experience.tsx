@@ -17,7 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 const Experience: React.FC = () => {
     const experienceRef = useRef<HTMLDivElement>(null)
     const expTextRef = useRef<HTMLHeadingElement>(null)
-    const cardsRef = useRef<HTMLDivElement[] | null>([])
+    const cardsRef = useRef<HTMLDivElement[]>([])
     const containerRef = useRef(null);
 
 
@@ -107,7 +107,11 @@ const Experience: React.FC = () => {
                             className="flex gap-10 cursor-grab active:cursor-grabbing"
                         >
                             <ExperienceCard
-                                ref={(el) => (cardsRef.current[0] = el)}
+                                ref={(el) => {
+                                    if (el) {
+                                        cardsRef.current[0] = el
+                                    }
+                                }}
                                 company="Jrnyfy Corp."
                                 duration="3 Years"
                                 start="Jan 2023"
@@ -117,7 +121,11 @@ const Experience: React.FC = () => {
                                 color='#085C34'
                             />
                             <ExperienceCard
-                                ref={(el) => (cardsRef.current[1] = el)}
+                                ref={(el) => {
+                                    if (el) {
+                                        cardsRef.current[1] = el
+                                    }
+                                }}
                                 company="Dynamic Software Ltd."
                                 duration="0.6 Year"
                                 start="Jun 2021"
@@ -127,7 +135,11 @@ const Experience: React.FC = () => {
                                 color='#221EB4'
                             />
                             <ExperienceCard
-                                ref={(el) => (cardsRef.current[2] = el)}
+                                ref={(el) => {
+                                    if (el) {
+                                        cardsRef.current[2] = el
+                                    }
+                                }}
                                 company="Trenza Softwares."
                                 duration="0.4 Year"
                                 start="Mar 2024"

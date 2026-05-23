@@ -18,11 +18,7 @@ const Loader = ({ onFinish }: { onFinish: () => void }) => {
                 },
             });
 
-            tl.fromTo(
-                '.loader-text',
-                { y: 50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8 }
-            ).to(loaderRef.current, {
+            tl.to(loaderRef.current, {
                 y: '-100%',
                 duration: 1.2,
                 ease: 'power4.inOut',
@@ -46,7 +42,7 @@ const Loader = ({ onFinish }: { onFinish: () => void }) => {
     return (
         <div
             ref={loaderRef}
-            className="fixed inset-0 bg-black z-99 flex items-center justify-center"
+            className="fixed inset-0 bg-gray-500 z-99 flex items-center justify-center"
         >
             <SiteLogo />
         </div>

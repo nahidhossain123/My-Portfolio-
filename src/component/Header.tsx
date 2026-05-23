@@ -10,6 +10,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import Button from './ui/Button';
 import SiteLogo from './SiteLogo';
+import { useLoader } from '../app/hooks/contextApi/LoaderContenxt';
 
 
 // --- Typescript Interfaces & Data (omitted for brevity) ---
@@ -28,6 +29,7 @@ const Header: React.FC<HeaderProps> = ({
     toggleTheme,
     navItems = defaultNavItems
 }) => {
+    const startAnimation = useLoader();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const ThemeIcon = theme === 'dark' ? Sun : Moon;
     const { lenis } = useLenis();
@@ -52,10 +54,28 @@ const Header: React.FC<HeaderProps> = ({
     //     return () => lenis.destroy();
     // }, []);
 
+    const tl = useRef<GSAPTimeline | null>(null);
+    useGSAP(() => {
+        tl.current = gsap.timeline({ paused: true })
+        tl.current.from(navRef.current, {
+            yPercent: 100,
+            opacity: 0,
+            duration: 1
+        })
+
+    }, [])
+
+    useEffect(() => {
+        if (startAnimation) {
+            console.log('Animation')
+            tl.current?.play();
+        }
+    }, [startAnimation]);
+
     return (
         <header className={`fixed w-full z-50`}>
             <div className="w-full">
-                <nav className="flex justify-center md:justify-between items-center px-8 py-6 md:px-16 md:py-8">
+                <nav ref={navRef} className="flex justify-center md:justify-between items-center px-8 py-6 md:px-16 md:py-8">
                     <SiteLogo />
                     <div className="hidden md:flex items-center  text-gray-300">
                         <a href="#about" className="bg-white/10 backdrop-blur-md border border-white/20 px-5 py-2 rounded-full flex">About</a>

@@ -176,12 +176,12 @@ const Projects: React.FC = () => {
         return projectsData.filter(project => project.category === activeFilter);
     }, [activeFilter]);
 
-    const gridRef = useRef(null);
+    const cardRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        if (!gridRef.current) return
 
-        const items = gridRef.current.querySelectorAll(".card");
+
+        const items = cardRef.current
 
         items.forEach((item, index) => {
             let fromX = 0;
@@ -225,11 +225,12 @@ const Projects: React.FC = () => {
     }, []);
 
 
+
     return (
         <section id="projects" className="py-20 bg-white dark:bg-black overflow-hidden">
             <div className="">
-                <div className='mx-10 mb-10'>
-                    <div className='text-[25vw] font-extrabold flex justify-between leading-[20vw]'>
+                <div className='mx-5 md:mx-10 mb-10'>
+                    <div className='text-[26vw] md:text-[28vw] font-extrabold flex justify-between leading-none'>
                         <div>W</div>
                         <div>o</div>
                         <div>r</div>
@@ -258,10 +259,14 @@ const Projects: React.FC = () => {
                 </div>
 
                 {/* --- Project Grid --- */}
-                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-5 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-5 ">
                     {filteredProjects.length > 0 ? (
-                        filteredProjects.map(project => (
-                            <div className='card'>
+                        filteredProjects.map((project, i) => (
+                            <div ref={(el) => {
+                                if (el) {
+                                    cardRef.current[i] = el
+                                }
+                            }}>
                                 <ProjectCard key={project.id} project={project} />
                             </div>
                         ))

@@ -12,10 +12,12 @@ type YRefType = React.MutableRefObject<{
 
 // 🔹 Props type
 interface MySkillSceneProps {
-    yRef: YRefType;
+    yRef: YRefType,
+    onClick: () => void
+
 }
 
-const MySkillScene: React.FC<MySkillSceneProps> = ({ yRef }) => {
+const MySkillScene: React.FC<MySkillSceneProps> = ({ yRef, onClick }) => {
 
     // 🔹 Three.js group ref
     const modelRef = useRef<THREE.Group | null>(null);
@@ -32,7 +34,7 @@ const MySkillScene: React.FC<MySkillSceneProps> = ({ yRef }) => {
 
     return (
         <group ref={modelRef}>
-            <Model scale={3} />
+            <Model onClick={onClick} />
         </group>
     );
 };

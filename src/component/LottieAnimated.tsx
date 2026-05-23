@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import { DotLottiePlayer } from '@dotlottie/react-player';
+import { DotLottieCommonPlayer, DotLottiePlayer } from '@dotlottie/react-player';
+
 import { gsap } from 'gsap';
 
 const LottieAnimated = ({
@@ -8,10 +9,10 @@ const LottieAnimated = ({
     ease = "power1.out",
     containerClassName = "w-full h-full absolute top-0 left-0 flex flex-col justify-end items-center pb-20"
 }) => {
-    const playerRef = useRef(null);
-    const containerRef = useRef(null);
+    const playerRef = useRef<DotLottieCommonPlayer | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const playhead = useRef({ progress: 0 });
-    const rafId = useRef(null);
+    const rafId = useRef(0);
     const lastX = useRef(0);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ const LottieAnimated = ({
             console.log('Available methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(player)));
         }, 500);
 
-        const handleMouseMove = (e) => {
+        const handleMouseMove = (e: MouseEvent) => {
             if (!container || !player) return;
 
             if (rafId.current) {
