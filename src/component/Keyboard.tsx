@@ -1,64 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, useGLTF } from '@react-three/drei'
+import { Text, useGLTF, useTexture } from '@react-three/drei'
 import { gsap } from 'gsap'
-import { ThreeEvent, useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
-
+import { useLoader } from '@react-three/fiber'
+import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
+import { Mesh, WebGLProgramParametersWithUniforms } from 'three';
 useGLTF.preload('/keyboard.glb')
 
 interface ModelPropsType {
     onClick: () => void
 }
 
-// 🔥 safer shader type
-type CustomShader = {
-    uniforms: Record<string, { value: any }>
-    vertexShader: string
-    fragmentShader: string
-}
-
-// 🔥 GLTF typing
-type GLTFResult = {
-    nodes: Record<string, THREE.Object3D>
-    materials: Record<string, THREE.Material>
-}
-
 export function Model({ onClick }: ModelPropsType) {
-    const { nodes, materials } = useGLTF('/keyboard.glb') as GLTFResult
+    const { nodes, materials } = useGLTF('/keyboard.glb')
+    const [label, setLabel] = useState("")
+    const shaderRef = useRef<WebGLProgramParametersWithUniforms | null>(null)
+    const [mode, setMode] = useState(0) // 0 = static, 1 = wave, 2 = blink
 
-    const [label, setLabel] = useState<string>("")
-    const [mode, setMode] = useState<number>(0)
+    const activeKey = useRef<{ name: string; isMesh: boolean; userData: { originalY?: number }; position: { y: number } }>(null) // ✅ track pressed key
 
-    const shaderRef = useRef<CustomShader | null>(null)
-    const activeKey = useRef<THREE.Mesh | null>(null)
-
-    // 🔥 cleaner label mapping
-    const labelMap: Record<string, string> = {
-        Plane001: 'HTML5',
-        Plane020: 'CSS3',
-        Plane: 'JavaScript',
-        Plane013: 'React.Js',
-        Plane002: 'Vite',
-        Plane004: 'Next.JS',
-        Plane022: 'Redux',
-        Plane003: 'Socket.io',
-        Plane014: 'Bootstrap',
-        Plane015: 'Tailwind Css',
-        Plane016: 'Rest Api',
-        Plane010: 'React Native',
-        Plane006: 'CI/CD',
-        Plane024: 'Node.Js',
-        Plane005: 'Express.JS',
-        Plane017: 'NPM',
-        Plane018: 'Bit Bucket',
-        Plane008: 'Github Action',
-        Plane026: 'GIT',
-        Plane009: 'MySQL',
-        Plane007: 'Slack',
-        Plane019: 'GSAP',
-    }
-
-    const isInteractive = (mesh: THREE.Mesh) => {
+    const isInteractive = (mesh: { name: string }) => {
         return !(mesh.name === "Cylinder" || mesh.name === "Plane011")
     }
 
@@ -68,23 +29,18 @@ export function Model({ onClick }: ModelPropsType) {
         sound.play().catch(() => { })
     }
 
-    const handlePointerDown = (e: ThreeEvent<PointerEvent>) => {
+    const handlePointerDown = (e: { stopPropagation: () => void; object: { name: string; isMesh: boolean; userData: { originalY?: number }; position: { y: number } } }) => {
         e.stopPropagation()
-
-        onClick?.()
-        handlePointerUp()
-
+        if (onClick) {
+            onClick()
+            handlePointerUp()
+        }
         setMode((prev) => (prev + 1) % 3)
+        const mesh = e.object
 
-        const obj = e.object
+        if (!mesh.isMesh || !isInteractive(mesh)) return
 
-        // ✅ proper narrowing
-        if (!(obj instanceof THREE.Mesh)) return
-        if (!isInteractive(obj)) return
-
-        const mesh = obj
-
-        activeKey.current = mesh
+        activeKey.current = mesh // ✅ store pressed key
 
         if (mesh.userData.originalY === undefined) {
             mesh.userData.originalY = mesh.position.y
@@ -97,36 +53,80 @@ export function Model({ onClick }: ModelPropsType) {
             duration: 0.1,
             ease: "power2.out",
         })
-
-        setLabel(labelMap[mesh.name] || 'Click')
+        console.log('meshName', mesh.name)
+        if (mesh.name == 'Plane001') {
+            setLabel('HTML5')
+        } else if (mesh.name == 'Plane020') {
+            setLabel('CSS3')
+        } else if (mesh.name == 'Plane020') {
+            setLabel('CSS3')
+        } else if (mesh.name == 'Plane') {
+            setLabel('JavaScript')
+        } else if (mesh.name == 'Plane013') {
+            setLabel('React.Js')
+        } else if (mesh.name == 'Plane002') {
+            setLabel('Vite')
+        } else if (mesh.name == 'Plane004') {
+            setLabel('Next.JS')
+        } else if (mesh.name == 'Plane022') {
+            setLabel('Redux')
+        } else if (mesh.name == 'Plane003') {
+            setLabel('Socket.io')
+        } else if (mesh.name == 'Plane014') {
+            setLabel('Bootstrap')
+        } else if (mesh.name == 'Plane015') {
+            setLabel('Tailwind Css')
+        } else if (mesh.name == 'Plane016') {
+            setLabel('Rest Api')
+        } else if (mesh.name == 'Plane010') {
+            setLabel('React Native')
+        } else if (mesh.name == 'Plane006') {
+            setLabel('CI/CD')
+        } else if (mesh.name == 'Plane024') {
+            setLabel('Node.Js')
+        } else if (mesh.name == 'Plane005') {
+            setLabel('Express.JS')
+        } else if (mesh.name == 'Plane017') {
+            setLabel('NPM')
+        } else if (mesh.name == 'Plane018') {
+            setLabel('Bit Bucket')
+        } else if (mesh.name == 'Plane008') {
+            setLabel('Github Action')
+        } else if (mesh.name == 'Plane026') {
+            setLabel('GIT')
+        } else if (mesh.name == 'Plane009') {
+            setLabel('MySQL')
+        } else if (mesh.name == 'Plane007') {
+            setLabel('Slack')
+        } else if (mesh.name == 'Plane019') {
+            setLabel('GSAP')
+        } else {
+            setLabel('Click')
+        }
     }
 
     const handlePointerUp = () => {
         const mesh = activeKey.current
         if (!mesh) return
-
         playSound()
-
         gsap.to(mesh.position, {
             y: mesh.userData.originalY,
             duration: 0.15,
             ease: "power2.out",
         })
 
-        activeKey.current = null
+        activeKey.current = null // ✅ reset
     }
 
     useEffect(() => {
         const mat = materials.Keyb
-
-        mat.onBeforeCompile = (shader: any) => {
+        mat.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = { value: 0 }
             shader.uniforms.uMode = { value: 0 }
 
-            shader.vertexShader =
-                `
+            shader.vertexShader = `
         varying vec3 vPos;
-        ` + shader.vertexShader
+    ` + shader.vertexShader
 
             shader.vertexShader = shader.vertexShader.replace(
                 '#include <begin_vertex>',
@@ -136,37 +136,42 @@ export function Model({ onClick }: ModelPropsType) {
         `
             )
 
-            shader.fragmentShader =
-                `
+            shader.fragmentShader = `
         uniform float uTime;
         uniform float uMode;
         varying vec3 vPos;
-        ` + shader.fragmentShader
+    ` + shader.fragmentShader
 
             shader.fragmentShader = shader.fragmentShader.replace(
                 '#include <dithering_fragment>',
                 `
         vec3 finalColor = vec3(0.0);
 
+        // MODE 0 → static light
         if (uMode < 0.5) {
+          
         }
+
+        // MODE 1 → wave
         else if (uMode < 1.5) {
-          float wave = sin(vPos.x * 3.0 + uTime * 2.0);
+            float wave = sin(vPos.x * 3.0 + uTime * 2.0);
 
-          vec3 rgb = vec3(
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0),
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 2.0),
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 4.0)
-          );
+            vec3 rgb = vec3(
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0),
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 2.0),
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 4.0)
+            );
 
-          finalColor = rgb * wave;
+            finalColor = rgb * wave;
         }
+
+        // MODE 2 → blink
         else {
-          finalColor = vec3(
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0),
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 2.0),
-            0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 4.0)
-          );
+            finalColor = vec3(
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0),
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 2.0),
+                0.5 + 0.5 * sin(uTime + vPos.x * 2.0 + 4.0)
+            );
         }
 
         gl_FragColor.rgb += finalColor * 0.6;
@@ -180,10 +185,12 @@ export function Model({ onClick }: ModelPropsType) {
     }, [materials])
 
     useFrame((state) => {
-        if (!shaderRef.current) return
+        if (shaderRef.current) {
+            shaderRef.current.uniforms.uTime.value =
+                state.clock.elapsedTime
 
-        shaderRef.current.uniforms.uTime.value = state.clock.elapsedTime
-        shaderRef.current.uniforms.uMode.value = mode
+            shaderRef.current.uniforms.uMode.value = mode
+        }
     })
 
     return (
@@ -193,7 +200,7 @@ export function Model({ onClick }: ModelPropsType) {
             scale={[2, 2, 2]}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
-            onPointerMissed={handlePointerUp}
+            onPointerMissed={handlePointerUp} // 🔥 important (release outside)
         >
             <Text
                 rotation={[4.75, 0, 0]}
@@ -203,10 +210,17 @@ export function Model({ onClick }: ModelPropsType) {
             >
                 {label}
             </Text>
-
+            {/* <mesh position={[0, 0, 0]}>
+                <planeGeometry args={[4, 2]} />
+                <meshBasicMaterial
+                    map={texture}
+                    transparent
+                    opacity={0.9}
+                    blending={THREE.MultiplyBlending}
+                />
+            </mesh> */}
             {Object.values(nodes).map((node, i) => {
-                // ✅ safe narrowing
-                if (!(node instanceof THREE.Mesh)) return null
+                if (!(node instanceof Mesh)) return null;
 
                 return (
                     <mesh
@@ -223,3 +237,5 @@ export function Model({ onClick }: ModelPropsType) {
         </group>
     )
 }
+
+useGLTF.preload('/keyboard.glb')

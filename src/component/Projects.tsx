@@ -262,7 +262,7 @@ const Projects: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-5 ">
                     {filteredProjects.length > 0 ? (
                         filteredProjects.map((project, i) => (
-                            <div ref={(el) => {
+                            <div key={project.id} ref={(el) => {
                                 if (el) {
                                     cardRef.current[i] = el
                                 }

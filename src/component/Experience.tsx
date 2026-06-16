@@ -6,7 +6,6 @@ import ExperienceCard from './ExperienceCard';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { dynamicExperience, jrnyfyExperience, trenzaExperience } from '../utils/experience';
-import { motion } from "framer-motion";
 import { Draggable } from "gsap/Draggable";
 import { ScrollTrigger } from 'gsap/all';
 

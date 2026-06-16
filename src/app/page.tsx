@@ -6,39 +6,19 @@ import Experience from "../component/Experience";
 import Contact from "../component/Contact";
 import Footer from "../component/Footer";
 import Skills from "../component/Skills";
-import AuroraBackground from "../component/AuroraBackground";
-import GlobalCanvas from "../component/ViewCanvas";
-import { Model } from "../component/Keyboard";
-import { Suspense } from "react";
-import ExperienceCard from "../component/ExperienceCard";
-import AllScenes from "../component/AllScenes";
-import About from "../component/About";
-import MySkillScene from "../component/MySkillScene";
 import WhyMe from "../component/WhyMe";
 
 export default function Home() {
   return (
     <div className="dark:bg-black">
-      <Header />
-      <Hero />
+      {/* <Header /> */}
+      {/* <Hero />
       <Skills />
       <Projects />
       <Experience />
-      {/* <About /> */}
-      {/* <About />
-      <CareerTimeline /> */}
-      {/* <Contact />
-      <Footer /> */}
-      {/* <Suspense>
-        <div className="fixed inset-0 pointer-events-none">
-          <Canvas camera={{ position: [0, 0, 13], fov: 25 }}>
-            <Scene />
-          </Canvas>
-        </div>
-      </Suspense> */}
       <WhyMe />
       <Contact />
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }

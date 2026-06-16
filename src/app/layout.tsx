@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "../component/SmoothScrollProvider";
-import SplashScreen from "../component/layout/SplashScreen";
 import { ThemeProvider } from "../component/ThemeProvider";
-import ViewCanvas from "../component/ViewCanvas";
 import ClientLoaderWrapper from "../component/layout/ClientLoaderWrapper";
 
 const geistSans = Geist({

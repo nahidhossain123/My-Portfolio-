@@ -10,7 +10,7 @@ const ClientLoaderWrapper = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <LoaderContext.Provider value={!loading}>
-            {loading && <Loader onFinish={() => setLoading(false)} />}
+            {/* {loading && <Loader onFinish={() => setLoading(false)} />} */}
             <div>
                 {children}
             </div>

@@ -11,7 +11,7 @@ interface ExperienceCardProps {
 }
 
 
-const ExperienceCard = forwardRef<HTMLDivElement, ExperienceCardProps>(({
+const ExperienceCard = forwardRef(({
     company = "Jrnyfy Corp.",
     duration = "1 Year",
     start = "Jan 2023",
@@ -20,10 +20,12 @@ const ExperienceCard = forwardRef<HTMLDivElement, ExperienceCardProps>(({
     items,
     color,
 
-}, ref) => {
-    const mainRef = useRef(null);
-    const reverseRef = useRef(null);
+}: ExperienceCardProps, ref) => {
+    const mainRef = useRef(null);     // 🔥 rotating part
+    const reverseRef = useRef(null);  // 🔥 inner gradient
 
+
+    // console.log('dragAmountRef', dragAmountRef.value)
     return (
         <div className="w-[600px] relative">
             <div className='absolute z-10 -left-10 top-[76px] bg-[linear-gradient(0deg,black_0%,gray_50%,gray_60%)] w-[60%] h-5'

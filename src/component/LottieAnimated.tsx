@@ -2,14 +2,14 @@ import React, { useRef, useEffect } from 'react';
 import { DotLottieCommonPlayer, DotLottiePlayer } from '@dotlottie/react-player';
 
 import { gsap } from 'gsap';
-
+import Lottie, { LottieRefCurrentProps } from 'lottie-react';
+import animationData from "./SoftText.json";
 const LottieAnimated = ({
-    src = "/SoftText.json",
     duration = 0.4,
     ease = "power1.out",
     containerClassName = "w-full h-full absolute top-0 left-0 flex flex-col justify-end items-center pb-20"
 }) => {
-    const playerRef = useRef<DotLottieCommonPlayer | null>(null);
+    const playerRef = useRef<LottieRefCurrentProps | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const playhead = useRef({ progress: 0 });
     const rafId = useRef(0);
@@ -82,11 +82,11 @@ const LottieAnimated = ({
             style={{ cursor: 'crosshair' }}
         >
             <div className='w-[92%]'>
-                <DotLottiePlayer
-                    ref={playerRef}
+                <Lottie
+                    lottieRef={playerRef}
                     autoplay={false}
                     loop={false}
-                    src={src}
+                    animationData={animationData}
                     style={{ width: '100%', height: '100%' }}
                 />
             </div>
