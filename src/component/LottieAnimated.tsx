@@ -1,6 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { DotLottieCommonPlayer, DotLottiePlayer } from '@dotlottie/react-player';
-
 import { gsap } from 'gsap';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
 import animationData from "./SoftText.json";
