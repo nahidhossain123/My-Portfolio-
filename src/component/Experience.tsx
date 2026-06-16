@@ -1,7 +1,5 @@
 'use client'
-import React, { useState, useMemo, Suspense, useRef, useEffect } from 'react';
-import { Github, ExternalLink, Code, Database, Server } from 'lucide-react';
-import { Canvas } from '@react-three/fiber';
+import React, { useRef, useEffect } from 'react';
 import ExperienceCard from './ExperienceCard';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
