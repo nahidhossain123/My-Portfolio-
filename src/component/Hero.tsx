@@ -20,14 +20,14 @@ export default function Hero() {
   const lottieRef = useRef<HTMLDivElement>(null)
   const tl = useRef<GSAPTimeline | null>(null);
   useGSAP(() => {
-    tl.current = gsap.timeline({ paused: true })
-    tl.current.from(text1Ref.current, {
+    const tl = gsap.timeline()
+    tl.from(text1Ref.current, {
       y: 100,
       opacity: 0,
       duration: 1,
       ease: 'power1.out'
     })
-    tl.current.from(descRef.current, {
+    tl.from(descRef.current, {
       y: 100,
       opacity: 0,
       duration: 1,
@@ -42,12 +42,12 @@ export default function Hero() {
     )
   }, [])
 
-  useEffect(() => {
-    if (startAnimation) {
-      console.log('Animation')
-      tl.current?.play();
-    }
-  }, [startAnimation]);
+  // useEffect(() => {
+  //   if (startAnimation) {
+  //     console.log('Animation')
+  //     tl.current?.play();
+  //   }
+  // }, [startAnimation]);
 
 
 

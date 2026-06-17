@@ -33,9 +33,7 @@ export default function RootLayout({
       >
         <SmoothScrollProvider>
           <ThemeProvider>
-            <ClientLoaderWrapper>
-              {children}
-            </ClientLoaderWrapper>
+            {children}
           </ThemeProvider>
         </SmoothScrollProvider>
       </body>

@@ -178,7 +178,7 @@ const Skills: React.FC = () => {
             <div className=" flex justify-center items-center">
                 <h2
                     ref={text1Ref}
-                    className="absolute top-32 z-40 text-[16vw]  md:text-[10vw] space-y-5 leading-none font-bold flex flex-wrap gap-x-6 container mx-auto px-5 md:px-0"
+                    className="absolute top-32 z-40 text-[16vw]  md:text-[9vw] space-y-5 leading-none font-bold flex flex-wrap gap-x-6 container mx-auto px-5 md:px-0"
                 >
                     {skillsText.map((word, i) => (
                         <span key={i} className="word opacity-20">

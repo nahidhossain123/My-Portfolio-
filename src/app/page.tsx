@@ -11,14 +11,14 @@ import WhyMe from "../component/WhyMe";
 export default function Home() {
   return (
     <div className="dark:bg-black">
-      {/* <Header /> */}
-      {/* <Hero />
+      <Header />
+      <Hero />
       <Skills />
       <Projects />
       <Experience />
       <WhyMe />
       <Contact />
-      <Footer /> */}
+      <Footer />
     </div>
   );
 }
