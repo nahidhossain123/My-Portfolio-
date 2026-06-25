@@ -38,7 +38,7 @@ const WhyMe = () => {
             scrollTrigger: {
                 trigger: containerRef.current,
                 start: "top 60%",
-                end: "+=3500", // Slightly longer scroll footprint for butter-smooth pacing
+                end: "center center", // Slightly longer scroll footprint for butter-smooth pacing
                 scrub: 1,      // Smooth, catch-up value
 
             },
@@ -84,14 +84,14 @@ const WhyMe = () => {
             .to(intro2Words, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.03, ease: "power2.out" }, 0.1);
 
         // 🎬 PHASE 2: MIDDLE LINE & SUBTEXT
-        tl.fromTo(introBorderRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, ">-=0.2")
+        pin.fromTo(introBorderRef.current, { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.inOut" }, ">-=0.2")
             .to(intro3Words, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.02, ease: "power2.out" }, ">-=0.1");
 
         // 🎬 PHASE 3: OUTRO FADE FOR INTRO LAYER
-        tl.to(introLayerRef.current, { opacity: 0, y: -50, filter: "blur(10px)", duration: 0.8, ease: "power3.in" }, ">+=0.5");
+        pin.to(introLayerRef.current, { opacity: 0, y: -50, filter: "blur(10px)", duration: 0.8, ease: "power3.in" }, ">+=0.5");
 
         // 🎬 PHASE 4: ENTER CONTENT LAYER (Cross-fade)
-        tl.to(contentLayerRef.current, { opacity: 1, duration: 0.4 }, "<+=0.3");
+        pin.to(contentLayerRef.current, { opacity: 1, duration: 0.4 }, "<+=0.3");
 
         // 🎬 PHASE 5: SEQUENTIAL ROW ANIMATION (The Senior Secret)
         rowRefs.current.forEach((row, index) => {
@@ -118,11 +118,11 @@ const WhyMe = () => {
                 }, "<+=0.1");
             }
 
-            tl.add(rowTimeline, `>+=${index === 0 ? 0.2 : 0.4}`);
+            pin.add(rowTimeline, `>+=${index === 0 ? 0.2 : 0.4}`);
         });
 
         // Add a small spacer buffer timeline-end so the last row stays readable before unpinning
-        tl.to({}, { duration: 0.5 });
+        pin.to({}, { duration: 0.5 });
 
     }, { scope: containerRef }); // Context scoping cleans up timelines automatically on unmount
 
