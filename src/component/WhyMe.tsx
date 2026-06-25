@@ -37,6 +37,15 @@ const WhyMe = () => {
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: containerRef.current,
+                start: "top 60%",
+                end: "+=3500", // Slightly longer scroll footprint for butter-smooth pacing
+                scrub: 1,      // Smooth, catch-up value
+
+            },
+        });
+        const pin = gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
                 start: "top top",
                 end: "+=3500", // Slightly longer scroll footprint for butter-smooth pacing
                 scrub: 1,      // Smooth, catch-up value
@@ -69,8 +78,8 @@ const WhyMe = () => {
         // -------------------------------------------------------------
         // 🎬 PHASE 1: INTRO TEXT SLIDE & REVEAL
         // -------------------------------------------------------------
-        tl.fromTo(introText1Ref.current, { x: "20%" }, { x: "-20%", ease: "none" }, 0)
-            .fromTo(introText2Ref.current, { x: "-20%" }, { x: "20%", ease: "none" }, 0)
+        tl.fromTo(introText1Ref.current, { x: "50%" }, { x: "-20%", ease: "none" }, 0)
+            .fromTo(introText2Ref.current, { x: "-50%" }, { x: "20%", ease: "none" }, 0)
             .to(intro1Words, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.03, ease: "power2.out" }, 0)
             .to(intro2Words, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.03, ease: "power2.out" }, 0.1);
 

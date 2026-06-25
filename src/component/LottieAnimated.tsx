@@ -87,8 +87,9 @@ const LottieAnimated = ({
                     animationData={animationData}
                     style={{ width: '100%', height: '100%' }}
                 />
+                <h2 className='font-extrabold text-2xl text-end'>Web & Mobile App Developer</h2>
             </div>
-            <h2 className='font-extrabold text-2xl'>Web & Mobile App Developer</h2>
+
         </div>
     );
 };

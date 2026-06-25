@@ -52,20 +52,17 @@ export default function Hero() {
 
 
   return (
-    <div className="min-h-screen relative px-5 md:px-16 bg-neutral-950">
-      <div ref={text1Ref} className="flex flex-col md:flex-row justify-between space-y-6 pt-40">
-        <h1 className='font-extrabold text-center text-[30vw] md:text-[5vw]'>
-          HEY!
+    <div className="min-h-screen relative px-5 md:px-16 bg-neutral-950 bg-[url('/hero-img1.png')] bg-cover bg-no-repeat bg-center">
+      <div ref={text1Ref} className="space-y-6 pt-40">
+        <h1 className='font-extrabold text-[30vw] md:text-[3vw]'>
+          Hey! I'm
         </h1>
-        <h2 className='font-extrabold text-center text-[5vw]'>
-          I'M
-        </h2>
       </div>
-      <div className="hidden md:block text-lg max-w-2xl mt-10 overflow-hidden">
+      {/* <div className="hidden md:block text-lg max-w-2xl mt-10 overflow-hidden">
         <p ref={descRef}>
           I'm a web and mobile app developer with a passion for creating intuitive and engaging digital experiences. With expertise in React, React Native, and Node.js, I specialize in building responsive and user-friendly applications that solve real-world problems. Let's work together to bring your ideas to life!
         </p>
-      </div>
+      </div> */}
       <div ref={lottieRef} className="hidden md:block ">
         <LottieAnimated />
       </div>
